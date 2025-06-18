@@ -72,8 +72,8 @@ manifests:
                   cpu: 1000m
                   memory: 2048Mi
                 requests:
-                  cpu: 200m
-                  memory: 512Mi
+                  cpu: 100m
+                  memory: 200Mi
 {{- else}}
 {{- end }}
 {{- else }}
