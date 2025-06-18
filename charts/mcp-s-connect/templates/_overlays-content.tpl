@@ -5,14 +5,14 @@ manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values..AUTH_SECRET }}
-        AUTO_AUTHENTICATE_TOKEN: {{ .Values..AUTO_AUTHENTICATE_TOKEN }}
-        DB_AUTH_SECRET: {{ .Values..DB_AUTH_SECRET }}
-        DB_BASE_URL: {{ .Values..DB_BASE_URL }}
-        DEBUG: {{ .Values..DEBUG }}
-        NEXTAUTH_URL: {{ .Values..NEXTAUTH_URL }}
-        ON_PREM: {{ .Values..ON_PREM }}
-        PORT: {{ .Values..PORT }}
+        AUTH_SECRET: {{ .Values.AUTH_SECRET }}
+        AUTO_AUTHENTICATE_TOKEN: {{ .Values.AUTO_AUTHENTICATE_TOKEN }}
+        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET }}
+        DB_BASE_URL: {{ .Values.DB_BASE_URL }}
+        DEBUG: {{ .Values.DEBUG }}
+        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL }}
+        ON_PREM: {{ .Values.ON_PREM }}
+        PORT: {{ .Values.PORT }}
       kind: ConfigMap
       metadata:
         labels:

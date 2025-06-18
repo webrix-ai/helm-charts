@@ -5,17 +5,17 @@ manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values..AUTH_SECRET }}
-        AUTO_AUTHENTICATE_TOKEN: {{ .Values..AUTO_AUTHENTICATE_TOKEN }}
-        CONNECT_URL: {{ .Values..CONNECT_URL }}
-        DATABASE_URL: {{ .Values..DATABASE_URL }}
-        DEBUG_QUERIES: {{ .Values..DEBUG_QUERIES }}
-        ENCRYPTION_KEY: {{ .Values..ENCRYPTION_KEY }}
-        ON_PREM: {{ .Values..ON_PREM }}
-        PORT: {{ .Values..PORT }}
-        POSTGRES_HOST_AUTH_METHOD: {{ .Values..POSTGRES_HOST_AUTH_METHOD }}
-        RATE_LIMIT_MAX: {{ .Values..RATE_LIMIT_MAX }}
-        RATE_LIMIT_WINDOW: {{ .Values..RATE_LIMIT_WINDOW }}
+        AUTH_SECRET: {{ .Values.AUTH_SECRET }}
+        AUTO_AUTHENTICATE_TOKEN: {{ .Values.AUTO_AUTHENTICATE_TOKEN }}
+        CONNECT_URL: {{ .Values.CONNECT_URL }}
+        DATABASE_URL: {{ .Values.DATABASE_URL }}
+        DEBUG_QUERIES: {{ .Values.DEBUG_QUERIES }}
+        ENCRYPTION_KEY: {{ .Values.ENCRYPTION_KEY }}
+        ON_PREM: {{ .Values.ON_PREM }}
+        PORT: {{ .Values.PORT }}
+        POSTGRES_HOST_AUTH_METHOD: {{ .Values.POSTGRES_HOST_AUTH_METHOD }}
+        RATE_LIMIT_MAX: {{ .Values.RATE_LIMIT_MAX }}
+        RATE_LIMIT_WINDOW: {{ .Values.RATE_LIMIT_WINDOW }}
       kind: ConfigMap
       metadata:
         labels:
