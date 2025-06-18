@@ -9,13 +9,14 @@ on:
     workflow_dispatch:  
     
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     env:
       OVERLAY_TO_PUBLISH: on-prem
     permissions:
       contents: write
     steps:
+      
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -25,8 +26,8 @@ jobs:
       - name: Configure Git
         working-directory: helm-charts
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR" --global
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com" --global
     
       - name: Set up GitHub auth token
         id: github-auth-token
@@ -62,18 +63,25 @@ jobs:
           else
             echo "No changes to commit, working tree is clean"
           fi
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # Move helm-charts to root
-      - name: Move helm-charts repo to root
+      - name: Configure git
         run: |
-          mv ./helm-charts /tmp/helm-charts
-          rm -rf ./helm-charts
-          rm -rf ./deployment
-          mv /tmp/helm-charts .
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        # with:
-        #   charts_dir: ./charts
+        with:
+          skip_existing: true

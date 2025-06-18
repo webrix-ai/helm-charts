@@ -1,0 +1,36 @@
+host: example.com
+
+
+connect:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - host: "" # leave empty to use the host from the values.yaml
+        subdomain: connect
+        paths:
+          - path: /
+            pathType: Prefix        
+app:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - host: "" # leave empty to use the host from the values.yaml
+        subdomain: app
+        paths:
+          - path: /
+            pathType: Prefix
+
+run:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - host: "" # leave empty to use the host from the values.yaml
+        subdomain: run
+        paths:
+          - path: /
