@@ -1,0 +1,28 @@
+apiVersion: v2
+name: mcp-s
+description: A Helm chart for Webrix application
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+appVersion: "1.0.0"
+
+# Dependencies specify other charts that this chart depends on
+dependencies:
+  - name: app
+    version: "1.x.x"
+    repository: "file://../mcp-s-app"
+  - name: connect
+    version: "1.x.x"
+    repository: "file://../mcp-s-connect"
+  - name: db-service
+    alias: dbservice
+    version: "1.x.x"
+    repository: "file://../mcp-s-db-service"
+  - name: run
+    version: "1.x.x"
+    repository: "file://../mcp-s-run"
