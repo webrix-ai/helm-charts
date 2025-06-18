@@ -54,6 +54,30 @@ entries:
   mcp-s:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-06-18T23:14:24.595570775Z"
+    dependencies:
+    - name: app
+      repository: file://../mcp-s-app
+      version: 1.x.x
+    - name: connect
+      repository: file://../mcp-s-connect
+      version: 1.x.x
+    - alias: dbservice
+      name: db-service
+      repository: file://../mcp-s-db-service
+      version: 1.x.x
+    - name: run
+      repository: file://../mcp-s-run
+      version: 1.x.x
+    description: A Helm chart for Webrix application
+    digest: d59b1f289345335260589902ed2d52bf6a5c8f557fa58a93ad75a9b407d929f5
+    name: mcp-s
+    type: application
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/mcp-s-0.1.4/mcp-s-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-06-18T23:11:21.347708195Z"
     dependencies:
     - name: app
@@ -141,4 +165,4 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/run-1.0.0/run-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-18T23:11:21.450271345Z"
+generated: "2025-06-18T23:14:24.595595842Z"
