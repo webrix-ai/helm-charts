@@ -1,4 +1,4 @@
-{{- define "znemiilaun.kustomizeFiles" }}
+{{- define "bbbyogjwlz.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
