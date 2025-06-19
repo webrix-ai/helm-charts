@@ -1,4 +1,4 @@
-{{- define "wncjsvpodx.yamls" }}
+{{- define "hmmbgcybxm.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
