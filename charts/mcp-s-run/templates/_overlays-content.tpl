@@ -1,4 +1,4 @@
-{{- define "ookkfaxgou.yamls" }}
+{{- define "gibpgknogz.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -63,7 +63,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-run-container-vars
-              image: quay.io/idan-chetrit/mcp-s-run:latest
+              image: quay.io/idan-chetrit/run:latest
               name: mcp-s-run
               ports:
               - containerPort: 3000
