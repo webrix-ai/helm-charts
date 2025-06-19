@@ -1,4 +1,4 @@
-{{- define "imlagnnikz.kustomizeFiles" }}
+{{- define "ipkeqlimws.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
