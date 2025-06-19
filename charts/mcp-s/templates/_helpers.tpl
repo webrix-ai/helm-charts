@@ -76,3 +76,12 @@ spec:
 {{- end }}
 {{- end }}
 
+
+
+{{- define "webrix.authurl" -}}
+{{- if (lookup "v1" "Secret" .Release.Namespace (printf "%s-shared" (include "webrix.fullname" .))) -}}
+{{ (lookup "v1" "Secret" .Release.Namespace (printf "%s-shared" (include "webrix.fullname" .))).data.password | b64dec }}
+{{- else -}}
+{{ randAlphaNum 32 }}
+{{- end -}}
+{{- end }}

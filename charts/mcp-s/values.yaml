@@ -1,36 +1,62 @@
 host: example.com
+db_base_url: &db_base_url http://mcp-s-db-service
+nextauth_url: &nextauth_url https://mcp-s-connect.mcp-s.com
+
 
 
 connect:
+  env:
+    DB_BASE_URL: *db_base_url
+    NEXTAUTH_URL: *nextauth_url
   ingress:
+    name: connect
     enabled: true
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
-        subdomain: connect
+        subdomain: connect.
         paths:
           - path: /
             pathType: Prefix        
 app:
+  env:
+    DB_BASE_URL: *db_base_url
+    NEXTAUTH_URL: *nextauth_url
   ingress:
+    name: app
     enabled: true
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
-        subdomain: app
+        subdomain: app.
         paths:
           - path: /
             pathType: Prefix
 
 run:
+  env:
+    DB_BASE_URL: *db_base_url
+    NEXTAUTH_URL: *nextauth_url
   ingress:
+    name: run
     enabled: true
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
-        subdomain: run
+        subdomain: run.
         paths:
           - path: /
+
+dbservice:
+  env:
+    DB_BASE_URL: *db_base_url
+    NEXTAUTH_URL: *nextauth_url
+  ingress:
+    name: db-service
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
