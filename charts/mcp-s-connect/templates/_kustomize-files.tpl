@@ -1,4 +1,4 @@
-{{- define "yldegtnlis.kustomizeFiles" }}
+{{- define "fwykfqbruf.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
@@ -66,7 +66,7 @@ manifests:
       resources:
         - ../../base
       images:
-        - name: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-connect
+        - name: quay.io/idan-chetrit/mcp-s-connect
           newTag: null
   - metadata:
       folder: overlays/prod
