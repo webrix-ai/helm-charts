@@ -7,58 +7,54 @@
 # - To use an external database, set:
 #   db_provider: "external"
 #   postgresql.enabled: false
-#   external_db_url: "your-external-db-connection-string"
-
-host: example.com
+#   dbservice.DATABASE_URL: "your-external-db-connection-string"
 
 global:
   # Use 'postgresql' for in-cluster db, or 'external' for external db
   db_provider: "postgresql" # postgresql | external
 
-  # if db_provider is 'external', this url must be set to point to the external database
-  external_db_url: ""
-
-db_base_url: &db_base_url http://mcp-s-db-service
-nextauth_url: &nextauth_url https://mcp-s-connect.mcp-s.com
 namespace: &namespace webrix-mcp-s
+host: &host nonprod-cluster-us-east1.koalaops.com
+connect_url: &connect_url https://connect.nonprod-cluster-us-east1.koalaops.com
+app_url: &app_url https://app.nonprod-cluster-us-east1.koalaops.com
 
+ingressClassName: &ingressClassName nginx
+ingressAnnotations: &ingressAnnotations
+  nginx.ingress.kubernetes.io/rewrite-target: /
 
 
 connect:
+  NEXTAUTH_URL: *connect_url
   globals:
     namespace: *namespace
   enabled: true
-  env: 
-    DB_BASE_URL: *db_base_url
-    NEXTAUTH_URL: *nextauth_url
   ingress:
+    className: *ingressClassName
     name: connect
     enabled: true
     namespace: *namespace
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+    annotations: *ingressAnnotations
     hosts:
-      - host: "" # leave empty to use the host from the values.yaml
+      - host: *host
         subdomain: connect.
         paths:
           - path: /
             pathType: Prefix
             backend: mcp-s-connect
 app:
+  NEXTAUTH_URL: *app_url
+  NEXT_PUBLIC_CONNECT_URL: *connect_url
   globals:
     namespace: *namespace
   enabled: true
-  env:
-    DB_BASE_URL: *db_base_url
-    NEXTAUTH_URL: *nextauth_url
   ingress:
+    className: *ingressClassName
     name: app
     enabled: true
     namespace: *namespace
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+    annotations: *ingressAnnotations
     hosts:
-      - host: "" # leave empty to use the host from the values.yaml
+      - host: *host
         subdomain: app.
         paths:
           - path: /
@@ -69,17 +65,14 @@ run:
   globals:
     namespace: *namespace
   enabled: true
-  env:
-    DB_BASE_URL: *db_base_url
-    NEXTAUTH_URL: *nextauth_url
   ingress:
+    className: *ingressClassName
     name: run
     enabled: true
     namespace: *namespace
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+    annotations: *ingressAnnotations
     hosts:
-      - host: "" # leave empty to use the host from the values.yaml
+      - host: *host
         subdomain: run.
         paths:
           - path: /
@@ -87,20 +80,12 @@ run:
             backend: mcp-s-run
 
 dbservice:
+  CONNECT_URL: *connect_url
+  DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
   globals:
     namespace: *namespace
   enabled: true
-  env:
-    DB_BASE_URL: *db_base_url
-    NEXTAUTH_URL: *nextauth_url
-  # if db_provider is 'postgresql', these values will be used to construct the DB_URL for dbservice
-  # if db_provider is 'external', DB_URL will be set to external_db_url
-  # This chart now expects a global.db_provider value.
-  db:
-    user: postgres
-    password: "postgres"
-    port: 5432
-    name: postgres
+
 
 # PostgreSQL sub-chart values. For a full list of values, see:
 # https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
