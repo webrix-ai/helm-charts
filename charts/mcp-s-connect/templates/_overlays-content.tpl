@@ -1,18 +1,18 @@
-{{- define "svxhfgckwo.yamls" }}
+{{- define "vsrvpghhjy.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values.AUTH_SECRET | quote }}
-        AUTO_AUTHENTICATE_TOKEN: {{ .Values.AUTO_AUTHENTICATE_TOKEN | quote }}
-        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET | quote }}
-        DB_BASE_URL: {{ .Values.DB_BASE_URL | quote }}
-        DEBUG: {{ .Values.DEBUG | quote }}
-        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL | quote }}
-        ON_PREM: {{ .Values.ON_PREM | quote }}
-        PORT: {{ .Values.PORT | quote }}
+        AUTH_SECRET: {{ .Values.AUTH_SECRET }}
+        AUTO_AUTHENTICATE_TOKEN: {{ .Values.AUTO_AUTHENTICATE_TOKEN }}
+        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET }}
+        DB_BASE_URL: {{ .Values.DB_BASE_URL }}
+        DEBUG: {{ .Values.DEBUG }}
+        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL }}
+        ON_PREM: {{ .Values.ON_PREM }}
+        PORT: {{ .Values.PORT }}
       kind: ConfigMap
       metadata:
         labels:
