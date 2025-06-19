@@ -1,4 +1,4 @@
-{{- define "lrguruysto.yamls" }}
+{{- define "hpzglacxla.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
