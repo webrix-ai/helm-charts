@@ -5,6 +5,7 @@ nextauth_url: &nextauth_url https://mcp-s-connect.mcp-s.com
 
 
 connect:
+  enabled: true
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
@@ -20,6 +21,7 @@ connect:
           - path: /
             pathType: Prefix        
 app:
+  enabled: true
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
@@ -36,6 +38,7 @@ app:
             pathType: Prefix
 
 run:
+  enabled: true
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
@@ -51,6 +54,7 @@ run:
           - path: /
 
 dbservice:
+  enabled: true
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
