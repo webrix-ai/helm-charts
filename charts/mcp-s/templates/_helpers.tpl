@@ -59,7 +59,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "webrix.fullname" $ }}
+                name: {{ .backend }}
                 port:
                   number: {{ .port | default 80 }}
           {{- end }}

@@ -1,4 +1,4 @@
-{{- define "lvasfzbwpe.kustomizeFiles" }}
+{{- define "rkgxvrmvlu.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

@@ -21,6 +21,7 @@ connect:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: connect.
+        backend: mcp-s-connect
         paths:
           - path: /
             pathType: Prefix        
@@ -40,6 +41,7 @@ app:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: app.
+        backend: mcp-s-app
         paths:
           - path: /
             pathType: Prefix
@@ -60,6 +62,7 @@ run:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: run.
+        backend: mcp-s-run
         paths:
           - path: /
 
@@ -70,10 +73,3 @@ dbservice:
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
-  ingress:
-    name: db-service
-    enabled: true
-    namespace: *namespace
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
-    hosts:
