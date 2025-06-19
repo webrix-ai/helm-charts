@@ -1,4 +1,4 @@
-{{- define "rslyxfitab.yamls" }}
+{{- define "heolqtmpkc.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:

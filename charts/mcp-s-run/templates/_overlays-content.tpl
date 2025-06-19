@@ -1,4 +1,4 @@
-{{- define "aldcrslycy.yamls" }}
+{{- define "ogagxmwkaw.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:

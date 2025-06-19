@@ -1,6 +1,6 @@
 
-{{- $all := fromYaml (include "jhyavqlbsk.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "jhyavqlbsk.kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "ziyxpoarcy.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "ziyxpoarcy.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}

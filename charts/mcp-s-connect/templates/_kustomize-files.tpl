@@ -1,4 +1,4 @@
-{{- define "rslyxfitab.kustomizeFiles" }}
+{{- define "heolqtmpkc.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
