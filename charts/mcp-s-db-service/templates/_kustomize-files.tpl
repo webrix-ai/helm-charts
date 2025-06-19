@@ -1,4 +1,4 @@
-{{- define "xucznadvvl.kustomizeFiles" }}
+{{- define "rprnggwpwt.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

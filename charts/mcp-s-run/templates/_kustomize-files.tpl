@@ -1,4 +1,4 @@
-{{- define "lmauttuypx.kustomizeFiles" }}
+{{- define "gtcjyzkjaf.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

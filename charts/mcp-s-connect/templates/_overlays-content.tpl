@@ -1,4 +1,4 @@
-{{- define "wbojtuohnj.yamls" }}
+{{- define "yldegtnlis.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -68,7 +68,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-connect-container-vars
-              image: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-connect:latest
+              image: quay.io/idan-chetrit/mcp-s-connect:latest
               name: mcp-s-connect
               ports:
               - containerPort: 3000

@@ -1,4 +1,4 @@
-{{- define "lmauttuypx.yamls" }}
+{{- define "gtcjyzkjaf.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -63,7 +63,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-run-container-vars
-              image: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-run:latest
+              image: quay.io/idan-chetrit/mcp-s-run:latest
               name: mcp-s-run
               ports:
               - containerPort: 3000

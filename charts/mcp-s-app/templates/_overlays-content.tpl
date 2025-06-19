@@ -1,4 +1,4 @@
-{{- define "gtjmugrzrw.yamls" }}
+{{- define "wisohxodjx.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -69,7 +69,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-app-container-vars
-              image: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-app:latest
+              image: quay.io/idan-chetrit/mcp-s-app:latest
               name: mcp-s-app
               ports:
               - containerPort: 3000
