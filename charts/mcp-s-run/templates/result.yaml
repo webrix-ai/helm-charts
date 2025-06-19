@@ -1,6 +1,6 @@
 
-{{- $all := fromYaml (include "xrcrbrwtzs.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "xrcrbrwtzs.kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "shunawxswg.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "shunawxswg.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}

@@ -1,19 +1,19 @@
-{{- define "fvgotqqxea.yamls" }}
+{{- define "wncjsvpodx.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values.AUTH_SECRET }}
-        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET }}
-        DB_BASE_URL: {{ .Values.DB_BASE_URL }}
-        NEXT_PUBLIC_CONNECT_URL: {{ .Values.NEXT_PUBLIC_CONNECT_URL }}
-        NEXTAUTH_DEBUG: {{ .Values.NEXTAUTH_DEBUG }}
-        NEXTAUTH_SECRET: {{ .Values.NEXTAUTH_SECRET }}
-        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL }}
-        ON_PREM: {{ .Values.ON_PREM }}
-        PORT: {{ .Values.PORT }}
+        AUTH_SECRET: {{ .Values.AUTH_SECRET  | quote }}
+        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET  | quote }}
+        DB_BASE_URL: {{ .Values.DB_BASE_URL  | quote }}
+        NEXT_PUBLIC_CONNECT_URL: {{ .Values.NEXT_PUBLIC_CONNECT_URL  | quote }}
+        NEXTAUTH_DEBUG: {{ .Values.NEXTAUTH_DEBUG  | quote }}
+        NEXTAUTH_SECRET: {{ .Values.NEXTAUTH_SECRET  | quote }}
+        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL  | quote }}
+        ON_PREM: {{ .Values.ON_PREM  | quote }}
+        PORT: {{ .Values.PORT  | quote }}
       kind: ConfigMap
       metadata:
         labels:
