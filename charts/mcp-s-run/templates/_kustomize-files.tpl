@@ -1,4 +1,4 @@
-{{- define "llvbnveurr.kustomizeFiles" }}
+{{- define "ympvbrbixe.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
