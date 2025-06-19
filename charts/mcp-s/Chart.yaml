@@ -30,3 +30,7 @@ dependencies:
     version: "x.x.x"
     repository: "file://../mcp-s-run"
     condition: run.enabled
+  - name: postgresql
+    version: "16.7.12"
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: postgresql.enabled

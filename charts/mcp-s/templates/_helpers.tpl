@@ -86,3 +86,25 @@ spec:
 {{ randAlphaNum 32 }}
 {{- end -}}
 {{- end }}
+
+{{/*
+Return the database URL for dbservice
+*/}}
+{{- define "mcp-s.dbservice.db_url" -}}
+{{- if eq .Values.global.db_provider "postgresql" -}}
+postgresql://{{ .Values.dbservice.db.user }}:{{ .Values.dbservice.db.password }}@{{ .Release.Name }}-postgresql:{{ .Values.dbservice.db.port }}/{{ .Values.dbservice.db.name }}
+{{- else if eq .Values.global.db_provider "external" -}}
+{{- .Values.global.external_db_url -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Override postgresql.enabled based on db_provider
+*/}}
+{{- define "mcp-s.postgresql.enabled" -}}
+{{- if eq .Values.db_provider "postgresql" -}}
+{{- true -}}
+{{- else -}}
+{{- false -}}
+{{- end -}}
+{{- end -}}

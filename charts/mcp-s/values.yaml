@@ -1,4 +1,23 @@
+# IMPORTANT:
+# The 'db_provider' and 'postgresql.enabled' flags must be consistent.
+# - To use the in-cluster PostgreSQL database, set:
+#   db_provider: "postgresql"
+#   postgresql.enabled: true
+#
+# - To use an external database, set:
+#   db_provider: "external"
+#   postgresql.enabled: false
+#   external_db_url: "your-external-db-connection-string"
+
 host: example.com
+
+global:
+  # Use 'postgresql' for in-cluster db, or 'external' for external db
+  db_provider: "postgresql" # postgresql | external
+
+  # if db_provider is 'external', this url must be set to point to the external database
+  external_db_url: ""
+
 db_base_url: &db_base_url http://mcp-s-db-service
 nextauth_url: &nextauth_url https://mcp-s-connect.mcp-s.com
 namespace: &namespace webrix-mcp-s
@@ -9,7 +28,7 @@ connect:
   globals:
     namespace: *namespace
   enabled: true
-  env:
+  env: 
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
   ingress:
@@ -73,3 +92,66 @@ dbservice:
   env:
     DB_BASE_URL: *db_base_url
     NEXTAUTH_URL: *nextauth_url
+  # if db_provider is 'postgresql', these values will be used to construct the DB_URL for dbservice
+  # if db_provider is 'external', DB_URL will be set to external_db_url
+  # This chart now expects a global.db_provider value.
+  db:
+    user: postgres
+    password: "postgres"
+    port: 5432
+    name: postgres
+
+# PostgreSQL sub-chart values. For a full list of values, see:
+# https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
+postgresql:
+  # controls enabling/disabling the postgresql subchart.
+  # it will be enabled if db_provider is 'postgresql'.
+  enabled: true
+    
+  # The chart will use the appropriate default PostgreSQL 17.x version
+  # image:
+  #   tag: "17.2.0-debian-12-r5"  # Can override, but not recommended
+
+  # Authentication configuration
+  auth:
+    enablePostgresUser: true
+    # postgresPassword: ""  # Empty password for trust auth
+    postgresPassword: "postgres"
+
+  # Use resourcesPreset for non-production instead of manual resources. 
+  # In production workloads using resourcesPreset is discouraged as it may not fully adapt to your specific needs.
+  # Options: nano, micro, small, medium, large, xlarge, 2xlarge
+  resourcesPreset: "small"  # Equivalent to ~500m CPU, 512Mi memory
+
+  # Primary configuration
+  primary:
+    # Persistence (equivalent to volumes in docker-compose)
+    persistence:
+      enabled: true
+      size: 8Gi
+      # You can specify a storage class if needed, such as "gp2" for AWS EBS.
+      # Leave empty to use the default storage class (assuming one exists in the cluster)
+      storageClass: ""
+
+  # Read replicas configuration (required to avoid warnings)
+  readReplicas:
+    # We're using standalone, but this prevents the warning
+    replicaCount: 0
+
+  # Service configuration (equivalent to ports: 5432:5432)
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+
+  # Metrics and monitoring (optional)
+  metrics:
+    enabled: false
+
+  # Disable read replicas for simplicity
+  architecture: standalone
+
+  # PostgreSQL configuration
+  postgresqlConfiguration:
+    listen_addresses: "'*'"
+    max_connections: "200" 
