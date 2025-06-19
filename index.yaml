@@ -57,6 +57,14 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/app-1.0.0/app-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    created: "2025-06-19T03:02:22.997307687Z"
+    description: A Helm chart for Kubernetes
+    digest: 0661455393cf22df5e8a4a8365021d8f752d9a8f6078832803c8659d821dc4df
+    name: app
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/app-0.1.15/app-0.1.15.tgz
+    version: 0.1.15
   connect:
   - apiVersion: v2
     created: "2025-06-19T01:04:39.97934666Z"
@@ -98,6 +106,14 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/connect-1.0.0/connect-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    created: "2025-06-19T03:02:23.179063424Z"
+    description: A Helm chart for Kubernetes
+    digest: c00915a00327fc944151bd2ec03f6b6acb8c6afd6c9069d5c94d7a7ecafc8548
+    name: connect
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/connect-0.1.15/connect-0.1.15.tgz
+    version: 0.1.15
   db-service:
   - apiVersion: v2
     created: "2025-06-19T01:04:40.14259186Z"
@@ -147,7 +163,43 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/db-service-1.0.0/db-service-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    created: "2025-06-19T03:02:23.332283807Z"
+    description: A Helm chart for Kubernetes
+    digest: 4515f5ba960f288f7939a911e7b4172694b1b3c2c1b1f8ba6bf0598633792b32
+    name: db-service
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/db-service-0.1.15/db-service-0.1.15.tgz
+    version: 0.1.15
   mcp-s:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-06-19T03:02:23.505962921Z"
+    dependencies:
+    - condition: app.enabled
+      name: app
+      repository: file://../mcp-s-app
+      version: x.x.x
+    - condition: connect.enabled
+      name: connect
+      repository: file://../mcp-s-connect
+      version: x.x.x
+    - alias: dbservice
+      condition: dbservice.enabled
+      name: db-service
+      repository: file://../mcp-s-db-service
+      version: x.x.x
+    - condition: run.enabled
+      name: run
+      repository: file://../mcp-s-run
+      version: x.x.x
+    description: A Helm chart for Webrix application
+    digest: 6d9de44b6bc9acf9c2cfd16e970e79ca8e7a4043faa688d418af6ee6e11cb1bb
+    name: mcp-s
+    type: application
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/mcp-s-0.1.16/mcp-s-0.1.16.tgz
+    version: 0.1.16
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2025-06-19T02:14:08.189712588Z"
@@ -577,4 +629,12 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/run-1.0.0/run-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-19T02:14:08.29393564Z"
+  - apiVersion: v2
+    created: "2025-06-19T03:02:23.655799028Z"
+    description: A Helm chart for Kubernetes
+    digest: 2be7d0c84fd5fe5c235ecb0ce01c90f6ca144d06610dd6f2772fc47e494268a1
+    name: run
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/run-0.1.15/run-0.1.15.tgz
+    version: 0.1.15
+generated: "2025-06-19T03:02:23.655941656Z"
