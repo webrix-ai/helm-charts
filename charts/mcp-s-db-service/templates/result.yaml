@@ -1,6 +1,6 @@
 
-{{- $all := fromYaml (include "oklwpcjpws.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "oklwpcjpws.kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "zfaucwsrlw.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "zfaucwsrlw.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}

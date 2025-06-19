@@ -1,4 +1,4 @@
-{{- define "sasphfxjwi.kustomizeFiles" }}
+{{- define "adnquttjgp.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
@@ -66,7 +66,7 @@ manifests:
       resources:
         - ../../base
       images:
-        - name: quay.io/idan-chetrit/mcp-s-run
+        - name: quay.io/idan-chetrit/run
           newTag: null
   - metadata:
       folder: overlays/prod

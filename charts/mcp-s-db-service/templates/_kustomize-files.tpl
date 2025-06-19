@@ -1,4 +1,4 @@
-{{- define "oklwpcjpws.kustomizeFiles" }}
+{{- define "zfaucwsrlw.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
@@ -66,7 +66,7 @@ manifests:
       resources:
         - ../../base
       images:
-        - name: quay.io/idan-chetrit/mcp-s-db-service
+        - name: quay.io/idan-chetrit/db-service
           newTag: null
   - metadata:
       folder: overlays/prod
