@@ -67,6 +67,16 @@ jobs:
               {print}
             ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
           done
+
+      # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
+      - name: Replace image names
+        working-directory: ./helm-charts
+        run: |
+          find ./charts -type f -name 'values.yaml' | while read file; do
+            sed -i 's/quay.io\/idan-chetrit\/mcp-s-run/quay.io\/idan-chetrit\/run/g' "$file"
+            sed -i 's/quay.io\/idan-chetrit\/mcp-s-db-service/quay.io\/idan-chetrit\/db-service/g' "$file"
+          done
+
       - name: add to git
         working-directory: helm-charts
         run: |
