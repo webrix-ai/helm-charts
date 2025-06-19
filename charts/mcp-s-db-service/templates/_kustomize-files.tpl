@@ -1,4 +1,4 @@
-{{- define "kustomizeFiles" }}
+{{- define "frmvgglpjj.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

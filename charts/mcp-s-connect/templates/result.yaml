@@ -1,6 +1,6 @@
 
-{{- $all := fromYaml (include "yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "rmbijwrkvg.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "rmbijwrkvg.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}
@@ -41,3 +41,4 @@
 {{- end }}
 
 {{- include "printManifests" $all}}
+        

@@ -1,4 +1,4 @@
-{{- define "kustomizeFiles" }}
+{{- define "lvasfzbwpe.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
