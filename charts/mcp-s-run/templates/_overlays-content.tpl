@@ -5,9 +5,9 @@ manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values.AUTH_SECRET }}
-        DB_SERVICE_URL: {{ .Values.DB_SERVICE_URL }}
-        PORT: {{ .Values.PORT }}
+        AUTH_SECRET: {{ .Values.AUTH_SECRET | quote }}
+        DB_SERVICE_URL: {{ .Values.DB_SERVICE_URL | quote }}
+        PORT: {{ .Values.PORT | quote }}
       kind: ConfigMap
       metadata:
         labels:
