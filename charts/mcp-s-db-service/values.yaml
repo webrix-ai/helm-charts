@@ -18,7 +18,7 @@
 #    - name: "resource"
 #      version: "v1"
 #      kind: "Resource"
-overlay: on-prem
+overlay: overlays/on-prem
 DATABASE_URL: postgres://postgres:postgres@postgres-postgresql:5432/postgres?sslmode=disable
 POSTGRES_HOST_AUTH_METHOD: trust
 PORT: "3000"

@@ -18,7 +18,7 @@
 #    - name: "resource"
 #      version: "v1"
 #      kind: "Resource"
-overlay: on-prem
+overlay: overlays/on-prem
 DB_SERVICE_URL: http://mcp-s-db-service
 PORT: "3000"
 AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
