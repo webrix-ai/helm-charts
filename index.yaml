@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2025-06-19T00:20:46.328956152Z"
+    description: A Helm chart for Kubernetes
+    digest: afb261bf482260027367d59ac710208589c2980404aadc1c401e0691af212509
+    name: app
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/app-1.0.5/app-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2025-06-19T00:18:42.596173547Z"
     description: A Helm chart for Kubernetes
     digest: dd66d3aea4c57fcccd853c45cadf339abc6097a354fcee429a3f078aa43e6550
@@ -52,6 +60,14 @@ entries:
     version: 1.0.0
   db-service:
   - apiVersion: v2
+    created: "2025-06-19T00:20:46.436789955Z"
+    description: A Helm chart for Kubernetes
+    digest: ce957fd97aba37681e62748581a7007b59373b1bd599524a14abd07c5e960425
+    name: db-service
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/db-service-1.0.5/db-service-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2025-06-19T00:18:42.832935601Z"
     description: A Helm chart for Kubernetes
     digest: ad5594732875a8ac470997b8da1eda52291b8badc76f76dacce379d5f941378a
@@ -76,6 +92,30 @@ entries:
     - https://github.com/webrix-ai/helm-charts/releases/download/db-service-1.0.0/db-service-1.0.0.tgz
     version: 1.0.0
   mcp-s:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-06-19T00:20:46.548588822Z"
+    dependencies:
+    - name: app
+      repository: file://../mcp-s-app
+      version: 1.x.x
+    - name: connect
+      repository: file://../mcp-s-connect
+      version: 1.x.x
+    - alias: dbservice
+      name: db-service
+      repository: file://../mcp-s-db-service
+      version: 1.x.x
+    - name: run
+      repository: file://../mcp-s-run
+      version: 1.x.x
+    description: A Helm chart for Webrix application
+    digest: 2e48288cc8c35caa8179e88ff1132967d5506d1768aad4c0a496f59ab54eb444
+    name: mcp-s
+    type: application
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/mcp-s-0.1.5/mcp-s-0.1.5.tgz
+    version: 0.1.5
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2025-06-18T23:14:24.595570775Z"
@@ -174,6 +214,14 @@ entries:
     version: 0.1.1
   run:
   - apiVersion: v2
+    created: "2025-06-19T00:20:46.685202337Z"
+    description: A Helm chart for Kubernetes
+    digest: 91ff62365b742f774b10f7149e395d26e5a0128ab02f68abf582e0ee8fe3a39b
+    name: run
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/run-1.0.5/run-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2025-06-19T00:18:43.094726639Z"
     description: A Helm chart for Kubernetes
     digest: 85ea5c8be69d4ece80e8297b7c9e2cc9f966625e6f0829504b96d859ed1d9aef
@@ -197,4 +245,4 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/run-1.0.0/run-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-19T00:18:43.094766425Z"
+generated: "2025-06-19T00:20:46.685268461Z"
