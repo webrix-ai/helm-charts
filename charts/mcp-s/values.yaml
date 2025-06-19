@@ -14,9 +14,9 @@ global:
   db_provider: "postgresql" # postgresql | external
 
 namespace: &namespace webrix-mcp-s
-host: &host nonprod-cluster-us-east1.koalaops.com
-connect_url: &connect_url https://connect.nonprod-cluster-us-east1.koalaops.com
-app_url: &app_url https://app.nonprod-cluster-us-east1.koalaops.com
+host: &host mcp-s.com
+connect_url: &connect_url https://connect.mcp-s.com
+app_url: &app_url https://app.mcp-s.com
 
 ingressClassName: &ingressClassName nginx
 ingressAnnotations: &ingressAnnotations
