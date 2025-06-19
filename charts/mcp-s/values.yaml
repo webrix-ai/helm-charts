@@ -1,10 +1,13 @@
 host: example.com
 db_base_url: &db_base_url http://mcp-s-db-service
 nextauth_url: &nextauth_url https://mcp-s-connect.mcp-s.com
+namespace: &namespace webrix-mcp-s
 
 
 
 connect:
+  globals:
+    namespace: *namespace
   enabled: true
   env:
     DB_BASE_URL: *db_base_url
@@ -12,6 +15,7 @@ connect:
   ingress:
     name: connect
     enabled: true
+    namespace: *namespace
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
@@ -21,6 +25,8 @@ connect:
           - path: /
             pathType: Prefix        
 app:
+  globals:
+    namespace: *namespace
   enabled: true
   env:
     DB_BASE_URL: *db_base_url
@@ -28,6 +34,7 @@ app:
   ingress:
     name: app
     enabled: true
+    namespace: *namespace
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
@@ -38,6 +45,8 @@ app:
             pathType: Prefix
 
 run:
+  globals:
+    namespace: *namespace
   enabled: true
   env:
     DB_BASE_URL: *db_base_url
@@ -45,6 +54,7 @@ run:
   ingress:
     name: run
     enabled: true
+    namespace: *namespace
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
@@ -54,6 +64,8 @@ run:
           - path: /
 
 dbservice:
+  globals:
+    namespace: *namespace
   enabled: true
   env:
     DB_BASE_URL: *db_base_url
@@ -61,6 +73,7 @@ dbservice:
   ingress:
     name: db-service
     enabled: true
+    namespace: *namespace
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
