@@ -1,4 +1,4 @@
-{{- define "wetlphmhhy.kustomizeFiles" }}
+{{- define "lznqubtqti.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

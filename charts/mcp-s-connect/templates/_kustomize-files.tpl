@@ -1,4 +1,4 @@
-{{- define "yirneoycnv.kustomizeFiles" }}
+{{- define "atjlmkiecv.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
