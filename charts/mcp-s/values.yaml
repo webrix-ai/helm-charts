@@ -21,10 +21,10 @@ connect:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: connect.
-        backend: mcp-s-connect
         paths:
           - path: /
-            pathType: Prefix        
+            pathType: Prefix
+            backend: mcp-s-connect
 app:
   globals:
     namespace: *namespace
@@ -41,10 +41,10 @@ app:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: app.
-        backend: mcp-s-app
         paths:
           - path: /
             pathType: Prefix
+            backend: mcp-s-app
 
 run:
   globals:
@@ -62,9 +62,9 @@ run:
     hosts:
       - host: "" # leave empty to use the host from the values.yaml
         subdomain: run.
-        backend: mcp-s-run
         paths:
           - path: /
+            backend: mcp-s-run
 
 dbservice:
   globals:
