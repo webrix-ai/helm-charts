@@ -51,10 +51,10 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
-          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize =base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize =base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize =base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize =base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
       
       - name: Add quote to ConfigMap values
         working-directory: ./helm-charts
