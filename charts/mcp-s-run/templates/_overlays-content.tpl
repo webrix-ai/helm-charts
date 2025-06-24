@@ -74,6 +74,24 @@ manifests:
                 requests:
                   cpu: 100m
                   memory: 200Mi
+{{- if .Values.sidecars.grafana.enabled }}
+            - name: grafana-mcp
+              image: {{ .Values.sidecars.grafana.image | quote }}
+              ports:
+              - containerPort: {{ .Values.sidecars.grafana.port }}
+              env:
+              - name: GRAFANA_URL
+                value: {{ .Values.sidecars.grafana.env.GRAFANA_URL | quote }}
+              - name: GRAFANA_API_KEY
+                value: {{ .Values.sidecars.grafana.env.GRAFANA_API_KEY | quote }}
+              resources:
+                requests:
+                  cpu: {{ .Values.sidecars.grafana.resources.requests.cpu | quote }}
+                  memory: {{ .Values.sidecars.grafana.resources.requests.memory | quote }}
+                limits:
+                  cpu: {{ .Values.sidecars.grafana.resources.limits.cpu | quote }}
+                  memory: {{ .Values.sidecars.grafana.resources.limits.memory | quote }}
+{{- end }}
 {{- else}}
 {{- end }}
 {{- else }}
