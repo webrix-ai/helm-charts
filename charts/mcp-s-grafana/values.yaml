@@ -1,0 +1,23 @@
+# globals:
+#  namespace: "namespace"
+#  namePrefix: "namePrefix"
+#  nameSuffix: "nameSuffix"
+#  nameReleasePrefix: "nameReleasePrefix"
+#  labels:
+#    key: "label"
+#  annotations:
+#    key: "annotation"
+#  images:
+#    - image: "old-image"
+#      newName: "new-image"
+#      newTag: "new-tag"
+#      digest: "digest"
+#      pullSecrets:
+#        - name: "pull-secret"
+#  resources:
+#    - name: "resource"
+#      version: "v1"
+#      kind: "Resource"
+overlay: overlays/on-prem
+GRAFANA_API_KEY: 123
+GRAFANA_URL: http:localhost:3000
