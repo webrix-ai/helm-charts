@@ -22,7 +22,6 @@ ingressClassName: &ingressClassName nginx
 ingressAnnotations: &ingressAnnotations
   nginx.ingress.kubernetes.io/rewrite-target: /
 
-
 connect:
   NEXTAUTH_URL: *connect_url
   globals:
@@ -78,6 +77,22 @@ run:
           - path: /
             pathType: Prefix
             backend: mcp-s-run
+  # Sidecar configuration - can be overridden for specific customers
+  sidecars:
+    grafana:
+      enabled: false
+      image: "mcp/grafana"
+      port: 8000
+      env:
+        GRAFANA_URL: ""
+        GRAFANA_API_KEY: ""
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 512Mi
 
 dbservice:
   CONNECT_URL: *connect_url
@@ -86,14 +101,13 @@ dbservice:
     namespace: *namespace
   enabled: true
 
-
 # PostgreSQL sub-chart values. For a full list of values, see:
 # https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
 postgresql:
   # controls enabling/disabling the postgresql subchart.
   # it will be enabled if db_provider is 'postgresql'.
   enabled: true
-    
+
   # The chart will use the appropriate default PostgreSQL 17.x version
   # image:
   #   tag: "17.2.0-debian-12-r5"  # Can override, but not recommended
@@ -104,10 +118,10 @@ postgresql:
     # postgresPassword: ""  # Empty password for trust auth
     postgresPassword: "postgres"
 
-  # Use resourcesPreset for non-production instead of manual resources. 
+  # Use resourcesPreset for non-production instead of manual resources.
   # In production workloads using resourcesPreset is discouraged as it may not fully adapt to your specific needs.
   # Options: nano, micro, small, medium, large, xlarge, 2xlarge
-  resourcesPreset: "small"  # Equivalent to ~500m CPU, 512Mi memory
+  resourcesPreset: "small" # Equivalent to ~500m CPU, 512Mi memory
 
   # Primary configuration
   primary:
@@ -140,4 +154,4 @@ postgresql:
   # PostgreSQL configuration
   postgresqlConfiguration:
     listen_addresses: "'*'"
-    max_connections: "200" 
+    max_connections: "200"

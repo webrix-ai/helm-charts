@@ -22,3 +22,20 @@ overlay: overlays/on-prem
 DB_SERVICE_URL: http://mcp-s-db-service
 PORT: "3000"
 AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
+
+# Sidecar containers configuration
+sidecars:
+  grafana:
+    enabled: false
+    image: "mcp/grafana"
+    port: 8000
+    env:
+      GRAFANA_URL: ""
+      GRAFANA_API_KEY: ""
+    resources:
+      requests:
+        cpu: 50m
+        memory: 100Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
