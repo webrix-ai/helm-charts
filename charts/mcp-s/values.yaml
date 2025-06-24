@@ -86,6 +86,13 @@ run:
       env:
         GRAFANA_URL: ""
         GRAFANA_API_KEY: ""
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 512Mi
 
 dbservice:
   CONNECT_URL: *connect_url
