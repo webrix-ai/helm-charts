@@ -5,7 +5,6 @@ manifests:
   - spec: 
       apiVersion: v1
       data:
-        PORT: {{ .Values.PORT  | quote }}
         GRAFANA_URL: {{ .Values.GRAFANA_URL  | quote }}
         GRAFANA_API_KEY: {{ .Values.GRAFANA_API_KEY  | quote }}
       kind: ConfigMap
@@ -37,7 +36,7 @@ manifests:
         ports:
         - port: 80
           protocol: TCP
-          targetPort: 3000
+          targetPort: 8000
         selector:
           app: mcp-s-grafana
   - spec: 
