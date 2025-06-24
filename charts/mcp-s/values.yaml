@@ -77,22 +77,6 @@ run:
           - path: /
             pathType: Prefix
             backend: mcp-s-run
-  # Sidecar configuration - can be overridden for specific customers
-  sidecars:
-    grafana:
-      enabled: false
-      image: "mcp/grafana"
-      port: 8000
-      env:
-        GRAFANA_URL: ""
-        GRAFANA_API_KEY: ""
-      resources:
-        requests:
-          cpu: 50m
-          memory: 128Mi
-        limits:
-          cpu: 200m
-          memory: 512Mi
 
 dbservice:
   CONNECT_URL: *connect_url
@@ -100,6 +84,16 @@ dbservice:
   globals:
     namespace: *namespace
   enabled: true
+
+grafana:
+  globals:
+    namespace: *namespace
+  enabled: false
+  GRAFANA_URL: "http://localhost:3000"
+  GRAFANA_API_KEY: ""
+  service:
+    port: 8000
+    targetPort: 8000
 
 # PostgreSQL sub-chart values. For a full list of values, see:
 # https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml

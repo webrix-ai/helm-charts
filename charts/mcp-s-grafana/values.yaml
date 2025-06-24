@@ -19,5 +19,8 @@
 #      version: "v1"
 #      kind: "Resource"
 overlay: overlays/on-prem
-GRAFANA_API_KEY: 123
-GRAFANA_URL: http:localhost:3000
+GRAFANA_API_KEY: ""
+GRAFANA_URL: "http://localhost:3000"
+service:
+  port: 8000
+  targetPort: 8000
