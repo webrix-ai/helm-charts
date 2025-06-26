@@ -1,4 +1,7 @@
+# To control the output of the manifests, you can use the following properties in the globals section:
+# FYI helm chart has the concept globals but it's with the property name "global" and not "globals"
 # globals:
+#  addStandardHeaders: false # by default it's true, `true` will add the standard helm headers to the manifests
 #  namespace: "namespace"
 #  namePrefix: "namePrefix"
 #  nameSuffix: "nameSuffix"
@@ -19,8 +22,6 @@
 #      version: "v1"
 #      kind: "Resource"
 overlay: overlays/on-prem
-GRAFANA_API_KEY: ""
-GRAFANA_URL: "http://localhost:3000"
-service:
-  port: 8000
-  targetPort: 8000
+env:
+  GRAFANA_URL: http://localhost:3000
+  GRAFANA_API_KEY: ""

@@ -1,40 +1,22 @@
-{{- define "gwnuepxrco.yamls" }}
+{{- define "hlmfk-0-0-5d80547625.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
-      data:
-        GRAFANA_URL: {{ .Values.GRAFANA_URL  | quote }}
-        GRAFANA_API_KEY: {{ .Values.GRAFANA_API_KEY  | quote }}
       kind: ConfigMap
       metadata:
-        labels:
-          app: mcp-s-grafana
-          app.kubernetes.io/version: ""
-        name: mcp-s-grafana-container-vars
-        namespace: webrix
-  - spec: 
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        labels:
-          app: mcp-s-grafana
-          app.kubernetes.io/version: ""
-        name: mcp-s-grafana-environment-values
-        namespace: webrix
+        name: on-prem-mcp-s-grafana-container-vars-6ct58987ht
+        namespace: webrix-mcp-s
   - spec: 
       apiVersion: v1
       kind: Service
       metadata:
-        labels:
-          app: mcp-s-grafana
-          app.kubernetes.io/version: ""
-        name: mcp-s-grafana
-        namespace: webrix
+        name: on-prem-mcp-s-grafana
+        namespace: webrix-mcp-s
       spec:
         ports:
-        - port: 80
+        - port: 8000
           protocol: TCP
           targetPort: 8000
         selector:
@@ -45,9 +27,8 @@ manifests:
       metadata:
         labels:
           app: mcp-s-grafana
-          app.kubernetes.io/version: ""
-        name: mcp-s-grafana
-        namespace: webrix
+        name: on-prem-mcp-s-grafana
+        namespace: webrix-mcp-s
       spec:
         replicas: 1
         selector:
@@ -61,18 +42,18 @@ manifests:
             containers:
             - envFrom:
               - configMapRef:
-                  name: mcp-s-grafana-container-vars
-              image: mcp/grafana
+                  name: on-prem-mcp-s-grafana-container-vars-6ct58987ht
+              image: mcp/grafana:latest
               name: mcp-s-grafana
               ports:
-              - containerPort: 3000
+              - containerPort: 8000
               resources:
                 limits:
-                  cpu: 1000m
-                  memory: 2048Mi
+                  cpu: 500m
+                  memory: 512Mi
                 requests:
                   cpu: 100m
-                  memory: 200Mi
+                  memory: 128Mi
 {{- else}}
 {{- end }}
 {{- else }}
