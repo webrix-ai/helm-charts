@@ -57,17 +57,6 @@ jobs:
           npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
           npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
       
-      - name: Add quote to ConfigMap values
-        working-directory: ./helm-charts
-        run: |
-          find ./charts -type f -name '_overlays-content.tpl' | while read file; do
-            awk '
-              /data:/ {in_data=1}
-              /kind: ConfigMap/ {in_data=0}
-              in_data && /\.Values\./ {sub(/}}$/, " | quote }}")}
-              {print}
-            ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-          done
 
       # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
       - name: Replace image names
