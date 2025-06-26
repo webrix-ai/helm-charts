@@ -23,7 +23,8 @@ ingressAnnotations: &ingressAnnotations
   nginx.ingress.kubernetes.io/rewrite-target: /
 
 connect:
-  NEXTAUTH_URL: *connect_url
+  env:
+    NEXTAUTH_URL: *connect_url
   globals:
     namespace: *namespace
   enabled: true
@@ -41,8 +42,9 @@ connect:
             pathType: Prefix
             backend: mcp-s-connect
 app:
-  NEXTAUTH_URL: *app_url
-  NEXT_PUBLIC_CONNECT_URL: *connect_url
+  env:
+    NEXTAUTH_URL: *app_url
+    NEXT_PUBLIC_CONNECT_URL: *connect_url
   globals:
     namespace: *namespace
   enabled: true
@@ -79,8 +81,9 @@ run:
             backend: mcp-s-run
 
 dbservice:
-  CONNECT_URL: *connect_url
-  DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
+  env:
+    CONNECT_URL: *connect_url
+    DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
   globals:
     namespace: *namespace
   enabled: true
@@ -89,8 +92,9 @@ grafana:
   globals:
     namespace: *namespace
   enabled: false
-  GRAFANA_URL: "http://localhost:3000"
-  GRAFANA_API_KEY: ""
+  env:
+    GRAFANA_URL: "http://localhost:3000"
+    GRAFANA_API_KEY: ""
   service:
     port: 8000
     targetPort: 8000
