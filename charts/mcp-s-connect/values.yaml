@@ -31,3 +31,5 @@ env:
   AUTO_AUTHENTICATE_TOKEN: Yp49XtVm7qN2RbLsG8cKeZwT5oDh1uMiA3vJfQxL6sE=
   DEBUG: "true"
   ON_PREM: "true"
+  RUN_URL: https://run.mcp-s.com
+  ORG: on-prem-org

@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-6ca340c284.yamls" }}
+{{- define "hlmfk-0-0-1aa6aed03a.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -12,10 +12,12 @@ manifests:
         DEBUG_QUERIES: {{ if kindIs "string" .Values.env.DEBUG_QUERIES }}{{ .Values.env.DEBUG_QUERIES | quote }}{{ else }}{{ .Values.env.DEBUG_QUERIES }}{{ end }}
         ENCRYPTION_KEY: {{ if kindIs "string" .Values.env.ENCRYPTION_KEY }}{{ .Values.env.ENCRYPTION_KEY | quote }}{{ else }}{{ .Values.env.ENCRYPTION_KEY }}{{ end }}
         ON_PREM: {{ if kindIs "string" .Values.env.ON_PREM }}{{ .Values.env.ON_PREM | quote }}{{ else }}{{ .Values.env.ON_PREM }}{{ end }}
+        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
         PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
         POSTGRES_HOST_AUTH_METHOD: {{ if kindIs "string" .Values.env.POSTGRES_HOST_AUTH_METHOD }}{{ .Values.env.POSTGRES_HOST_AUTH_METHOD | quote }}{{ else }}{{ .Values.env.POSTGRES_HOST_AUTH_METHOD }}{{ end }}
         RATE_LIMIT_MAX: {{ if kindIs "string" .Values.env.RATE_LIMIT_MAX }}{{ .Values.env.RATE_LIMIT_MAX | quote }}{{ else }}{{ .Values.env.RATE_LIMIT_MAX }}{{ end }}
         RATE_LIMIT_WINDOW: {{ if kindIs "string" .Values.env.RATE_LIMIT_WINDOW }}{{ .Values.env.RATE_LIMIT_WINDOW | quote }}{{ else }}{{ .Values.env.RATE_LIMIT_WINDOW }}{{ end }}
+        RUN_URL: {{ if kindIs "string" .Values.env.RUN_URL }}{{ .Values.env.RUN_URL | quote }}{{ else }}{{ .Values.env.RUN_URL }}{{ end }}
       kind: ConfigMap
       metadata:
         labels:

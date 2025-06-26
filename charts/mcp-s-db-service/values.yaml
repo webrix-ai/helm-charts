@@ -34,3 +34,5 @@ env:
   RATE_LIMIT_MAX: "1000"
   RATE_LIMIT_WINDOW: "60000"
   ENCRYPTION_KEY: iL7wUJhqRMPFY0asXqLAn1JjW9kv0OqC4NHtqKHt5VY=
+  RUN_URL: https://run.mcp-s.com
+  ORG: on-prem-org

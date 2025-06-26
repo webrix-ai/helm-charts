@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-98190e0b7e.yamls" }}
+{{- define "hlmfk-0-0-9f44ad13fd.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -12,7 +12,9 @@ manifests:
         DEBUG: {{ if kindIs "string" .Values.env.DEBUG }}{{ .Values.env.DEBUG | quote }}{{ else }}{{ .Values.env.DEBUG }}{{ end }}
         NEXTAUTH_URL: {{ if kindIs "string" .Values.env.NEXTAUTH_URL }}{{ .Values.env.NEXTAUTH_URL | quote }}{{ else }}{{ .Values.env.NEXTAUTH_URL }}{{ end }}
         ON_PREM: {{ if kindIs "string" .Values.env.ON_PREM }}{{ .Values.env.ON_PREM | quote }}{{ else }}{{ .Values.env.ON_PREM }}{{ end }}
+        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
         PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
+        RUN_URL: {{ if kindIs "string" .Values.env.RUN_URL }}{{ .Values.env.RUN_URL | quote }}{{ else }}{{ .Values.env.RUN_URL }}{{ end }}
       kind: ConfigMap
       metadata:
         labels:

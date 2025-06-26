@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-bbf48fb568.yamls" }}
+{{- define "hlmfk-0-0-4cdffc48fb.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -6,7 +6,10 @@ manifests:
       apiVersion: v1
       data:
         AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
+        BASE_URL: {{ if kindIs "string" .Values.env.BASE_URL }}{{ .Values.env.BASE_URL | quote }}{{ else }}{{ .Values.env.BASE_URL }}{{ end }}
+        CONNECT_URL: {{ if kindIs "string" .Values.env.CONNECT_URL }}{{ .Values.env.CONNECT_URL | quote }}{{ else }}{{ .Values.env.CONNECT_URL }}{{ end }}
         DB_SERVICE_URL: {{ if kindIs "string" .Values.env.DB_SERVICE_URL }}{{ .Values.env.DB_SERVICE_URL | quote }}{{ else }}{{ .Values.env.DB_SERVICE_URL }}{{ end }}
+        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
         PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
       kind: ConfigMap
       metadata:
