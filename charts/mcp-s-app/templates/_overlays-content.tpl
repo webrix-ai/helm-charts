@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-4c5f0e75ff.yamls" }}
+{{- define "hlmfk-0-0-26fc23bef9.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -10,11 +10,9 @@ manifests:
         AUTH_KEYCLOAK_SECRET: {{ if kindIs "string" .Values.env.AUTH_KEYCLOAK_SECRET }}{{ .Values.env.AUTH_KEYCLOAK_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_KEYCLOAK_SECRET }}{{ end }}
         AUTH_PROVIDER: {{ if kindIs "string" .Values.env.AUTH_PROVIDER }}{{ .Values.env.AUTH_PROVIDER | quote }}{{ else }}{{ .Values.env.AUTH_PROVIDER }}{{ end }}
         AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
-        AUTH_URL: {{ if kindIs "string" .Values.env.AUTH_URL }}{{ .Values.env.AUTH_URL | quote }}{{ else }}{{ .Values.env.AUTH_URL }}{{ end }}
         CONNECT_URL: {{ if kindIs "string" .Values.env.CONNECT_URL }}{{ .Values.env.CONNECT_URL | quote }}{{ else }}{{ .Values.env.CONNECT_URL }}{{ end }}
         DB_AUTH_SECRET: {{ if kindIs "string" .Values.env.DB_AUTH_SECRET }}{{ .Values.env.DB_AUTH_SECRET | quote }}{{ else }}{{ .Values.env.DB_AUTH_SECRET }}{{ end }}
         DB_BASE_URL: {{ if kindIs "string" .Values.env.DB_BASE_URL }}{{ .Values.env.DB_BASE_URL | quote }}{{ else }}{{ .Values.env.DB_BASE_URL }}{{ end }}
-        NEXT_PUBLIC_CONNECT_URL: {{ if kindIs "string" .Values.env.NEXT_PUBLIC_CONNECT_URL }}{{ .Values.env.NEXT_PUBLIC_CONNECT_URL | quote }}{{ else }}{{ .Values.env.NEXT_PUBLIC_CONNECT_URL }}{{ end }}
         NEXTAUTH_DEBUG: {{ if kindIs "string" .Values.env.NEXTAUTH_DEBUG }}{{ .Values.env.NEXTAUTH_DEBUG | quote }}{{ else }}{{ .Values.env.NEXTAUTH_DEBUG }}{{ end }}
         NEXTAUTH_SECRET: {{ if kindIs "string" .Values.env.NEXTAUTH_SECRET }}{{ .Values.env.NEXTAUTH_SECRET | quote }}{{ else }}{{ .Values.env.NEXTAUTH_SECRET }}{{ end }}
         NEXTAUTH_URL: {{ if kindIs "string" .Values.env.NEXTAUTH_URL }}{{ .Values.env.NEXTAUTH_URL | quote }}{{ else }}{{ .Values.env.NEXTAUTH_URL }}{{ end }}

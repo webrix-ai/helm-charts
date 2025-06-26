@@ -23,20 +23,18 @@
 #      kind: "Resource"
 overlay: overlays/on-prem
 env:
-  DB_BASE_URL: ""
+  DB_BASE_URL: http://mcp-s-db-service
   AUTH_SECRET: Yt84QvWr9bK3MnLpC5e1ZxDoJ7gTfVsAiX0uRhNd6pU=
   DB_AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
-  NEXTAUTH_URL: ""
+  NEXTAUTH_URL: https://mcp-s-app.mcp-s.com
   PORT: "3000"
-  ON_PREM: ""
+  ON_PREM: "true"
   NEXTAUTH_SECRET: Qw8rTz2vXy5pLm9nJk4sVb7cHn3dZx1aE6uYqPoRtS8w=
   NEXTAUTH_DEBUG: "true"
-  NEXT_PUBLIC_CONNECT_URL: ""
-  AUTH_URL: ""
+  CONNECT_URL: https://mcp-s-connect.mcp-s.com
   AUTH_PROVIDER: ""
   AUTH_KEYCLOAK_ID: ""
   AUTH_KEYCLOAK_SECRET: ""
   AUTH_KEYCLOAK_ISSUER: ""
-  CONNECT_URL: ""
-  RUN_URL: ""
-  ORG: ""
+  RUN_URL: https://run.mcp-s.com
+  ORG: on-prem-org
