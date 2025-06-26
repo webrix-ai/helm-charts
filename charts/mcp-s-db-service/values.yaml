@@ -36,3 +36,5 @@ env:
   ENCRYPTION_KEY: iL7wUJhqRMPFY0asXqLAn1JjW9kv0OqC4NHtqKHt5VY=
   RUN_URL: https://run.mcp-s.com
   ORG: on-prem-org
+globals:
+  addStandardHeaders: false

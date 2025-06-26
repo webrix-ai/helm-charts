@@ -38,3 +38,5 @@ env:
   AUTH_KEYCLOAK_ISSUER: ""
   RUN_URL: https://run.mcp-s.com
   ORG: on-prem-org
+globals:
+  addStandardHeaders: false

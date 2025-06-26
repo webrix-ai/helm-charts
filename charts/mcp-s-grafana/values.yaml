@@ -25,3 +25,5 @@ overlay: overlays/on-prem
 env:
   GRAFANA_URL: http://localhost:3000
   GRAFANA_API_KEY: ""
+globals:
+  addStandardHeaders: false

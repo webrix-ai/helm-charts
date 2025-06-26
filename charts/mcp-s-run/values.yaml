@@ -29,3 +29,5 @@ env:
   ORG: on-prem-org
   CONNECT_URL: https://connect.mcp-s.com
   BASE_URL: https://run.mcp-s.com
+globals:
+  addStandardHeaders: false
