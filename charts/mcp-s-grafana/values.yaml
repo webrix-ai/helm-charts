@@ -22,6 +22,8 @@
 #      version: "v1"
 #      kind: "Resource"
 overlay: overlays/on-prem
+GRAFANA_URL: http://localhost:3000
+GRAFANA_API_KEY: ""
 env:
   GRAFANA_URL: http://localhost:3000
   GRAFANA_API_KEY: ""
