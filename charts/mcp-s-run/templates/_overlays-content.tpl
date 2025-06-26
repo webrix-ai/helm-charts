@@ -1,16 +1,16 @@
-{{- define "hlmfk-0-0-4cdffc48fb.yamls" }}
+{{- define "hlmfk-0-0-62f4e37a48.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
-        BASE_URL: {{ if kindIs "string" .Values.env.BASE_URL }}{{ .Values.env.BASE_URL | quote }}{{ else }}{{ .Values.env.BASE_URL }}{{ end }}
-        CONNECT_URL: {{ if kindIs "string" .Values.env.CONNECT_URL }}{{ .Values.env.CONNECT_URL | quote }}{{ else }}{{ .Values.env.CONNECT_URL }}{{ end }}
-        DB_SERVICE_URL: {{ if kindIs "string" .Values.env.DB_SERVICE_URL }}{{ .Values.env.DB_SERVICE_URL | quote }}{{ else }}{{ .Values.env.DB_SERVICE_URL }}{{ end }}
-        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
-        PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
+        AUTH_SECRET: {{ .Values.env.AUTH_SECRET | quote }}
+        BASE_URL: {{ .Values.env.BASE_URL | quote }}
+        CONNECT_URL: {{ .Values.env.CONNECT_URL | quote }}
+        DB_SERVICE_URL: {{ .Values.env.DB_SERVICE_URL | quote }}
+        ORG: {{ .Values.env.ORG | quote }}
+        PORT: {{ .Values.env.PORT | quote }}
       kind: ConfigMap
       metadata:
         labels:

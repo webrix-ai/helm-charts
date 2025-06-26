@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-26fc23bef9.kustomizeFiles" }}
+{{- define "hlmfk-0-0-5207726f0e.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base

@@ -1,23 +1,23 @@
-{{- define "hlmfk-0-0-1aa6aed03a.yamls" }}
+{{- define "hlmfk-0-0-fa01c2fd56.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
-        AUTO_AUTHENTICATE_TOKEN: {{ if kindIs "string" .Values.env.AUTO_AUTHENTICATE_TOKEN }}{{ .Values.env.AUTO_AUTHENTICATE_TOKEN | quote }}{{ else }}{{ .Values.env.AUTO_AUTHENTICATE_TOKEN }}{{ end }}
-        CONNECT_URL: {{ if kindIs "string" .Values.env.CONNECT_URL }}{{ .Values.env.CONNECT_URL | quote }}{{ else }}{{ .Values.env.CONNECT_URL }}{{ end }}
-        DATABASE_URL: {{ if kindIs "string" .Values.env.DATABASE_URL }}{{ .Values.env.DATABASE_URL | quote }}{{ else }}{{ .Values.env.DATABASE_URL }}{{ end }}
-        DEBUG_QUERIES: {{ if kindIs "string" .Values.env.DEBUG_QUERIES }}{{ .Values.env.DEBUG_QUERIES | quote }}{{ else }}{{ .Values.env.DEBUG_QUERIES }}{{ end }}
-        ENCRYPTION_KEY: {{ if kindIs "string" .Values.env.ENCRYPTION_KEY }}{{ .Values.env.ENCRYPTION_KEY | quote }}{{ else }}{{ .Values.env.ENCRYPTION_KEY }}{{ end }}
-        ON_PREM: {{ if kindIs "string" .Values.env.ON_PREM }}{{ .Values.env.ON_PREM | quote }}{{ else }}{{ .Values.env.ON_PREM }}{{ end }}
-        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
-        PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
-        POSTGRES_HOST_AUTH_METHOD: {{ if kindIs "string" .Values.env.POSTGRES_HOST_AUTH_METHOD }}{{ .Values.env.POSTGRES_HOST_AUTH_METHOD | quote }}{{ else }}{{ .Values.env.POSTGRES_HOST_AUTH_METHOD }}{{ end }}
-        RATE_LIMIT_MAX: {{ if kindIs "string" .Values.env.RATE_LIMIT_MAX }}{{ .Values.env.RATE_LIMIT_MAX | quote }}{{ else }}{{ .Values.env.RATE_LIMIT_MAX }}{{ end }}
-        RATE_LIMIT_WINDOW: {{ if kindIs "string" .Values.env.RATE_LIMIT_WINDOW }}{{ .Values.env.RATE_LIMIT_WINDOW | quote }}{{ else }}{{ .Values.env.RATE_LIMIT_WINDOW }}{{ end }}
-        RUN_URL: {{ if kindIs "string" .Values.env.RUN_URL }}{{ .Values.env.RUN_URL | quote }}{{ else }}{{ .Values.env.RUN_URL }}{{ end }}
+        AUTH_SECRET: {{ .Values.env.AUTH_SECRET | quote }}
+        AUTO_AUTHENTICATE_TOKEN: {{ .Values.env.AUTO_AUTHENTICATE_TOKEN | quote }}
+        CONNECT_URL: {{ .Values.env.CONNECT_URL | quote }}
+        DATABASE_URL: {{ .Values.env.DATABASE_URL | quote }}
+        DEBUG_QUERIES: {{ .Values.env.DEBUG_QUERIES | quote }}
+        ENCRYPTION_KEY: {{ .Values.env.ENCRYPTION_KEY | quote }}
+        ON_PREM: {{ .Values.env.ON_PREM | quote }}
+        ORG: {{ .Values.env.ORG | quote }}
+        PORT: {{ .Values.env.PORT | quote }}
+        POSTGRES_HOST_AUTH_METHOD: {{ .Values.env.POSTGRES_HOST_AUTH_METHOD | quote }}
+        RATE_LIMIT_MAX: {{ .Values.env.RATE_LIMIT_MAX | quote }}
+        RATE_LIMIT_WINDOW: {{ .Values.env.RATE_LIMIT_WINDOW | quote }}
+        RUN_URL: {{ .Values.env.RUN_URL | quote }}
       kind: ConfigMap
       metadata:
         labels:
