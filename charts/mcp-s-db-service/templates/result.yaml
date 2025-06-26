@@ -13,7 +13,6 @@
 {{- if $.Values.images }}
   {{- include "hlmfk-0-0.updataImages" (dict "manifest" $manifest "images" $.Values.images)}}
 {{- end}}
-{{- include "hlmfk-0-0.addStandardHeaders" (dict "manifest" $manifest "globals" $.Values.globals "Chart" $.Chart "Release" $.Release "Values" $.Values)}}
 {{- if $.Values.globals }}
 {{- include "hlmfk-0-0.setNamespace" (dict "manifest" $manifest "globals" $.Values.globals)}}
 {{- include "hlmfk-0-0.setNamePrefix" (dict "manifest" $manifest "globals" $.Values.globals)}}
