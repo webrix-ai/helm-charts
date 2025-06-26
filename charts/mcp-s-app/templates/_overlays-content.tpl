@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-5207726f0e.yamls" }}
+{{- define "hlmfk-0-0-2ba5fdb37d.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -10,6 +10,7 @@ manifests:
         AUTH_KEYCLOAK_SECRET: {{ .Values.env.AUTH_KEYCLOAK_SECRET | quote }}
         AUTH_PROVIDER: {{ .Values.env.AUTH_PROVIDER | quote }}
         AUTH_SECRET: {{ .Values.env.AUTH_SECRET | quote }}
+        AUTH_URL: {{ .Values.env.AUTH_URL | quote }}
         CONNECT_URL: {{ .Values.env.CONNECT_URL | quote }}
         DB_AUTH_SECRET: {{ .Values.env.DB_AUTH_SECRET | quote }}
         DB_BASE_URL: {{ .Values.env.DB_BASE_URL | quote }}
