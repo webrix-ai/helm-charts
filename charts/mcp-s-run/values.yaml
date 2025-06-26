@@ -1,4 +1,7 @@
+# To control the output of the manifests, you can use the following properties in the globals section:
+# FYI helm chart has the concept globals but it's with the property name "global" and not "globals"
 # globals:
+#  addStandardHeaders: false # by default it's true, `true` will add the standard helm headers to the manifests
 #  namespace: "namespace"
 #  namePrefix: "namePrefix"
 #  nameSuffix: "nameSuffix"
@@ -19,6 +22,7 @@
 #      version: "v1"
 #      kind: "Resource"
 overlay: overlays/on-prem
-DB_SERVICE_URL: http://mcp-s-db-service
-PORT: "3000"
-AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
+env:
+  DB_SERVICE_URL: http://mcp-s-db-service
+  PORT: "3000"
+  AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=

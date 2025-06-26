@@ -1,13 +1,13 @@
-{{- define "fdsxtuuzdd.yamls" }}
+{{- define "hlmfk-0-0-bbf48fb568.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values.AUTH_SECRET  | quote }}
-        DB_SERVICE_URL: {{ .Values.DB_SERVICE_URL  | quote }}
-        PORT: {{ .Values.PORT  | quote }}
+        AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
+        DB_SERVICE_URL: {{ if kindIs "string" .Values.env.DB_SERVICE_URL }}{{ .Values.env.DB_SERVICE_URL | quote }}{{ else }}{{ .Values.env.DB_SERVICE_URL }}{{ end }}
+        PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
       kind: ConfigMap
       metadata:
         labels:

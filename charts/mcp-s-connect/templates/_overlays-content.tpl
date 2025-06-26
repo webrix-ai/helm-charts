@@ -1,18 +1,18 @@
-{{- define "noakgbpdqh.yamls" }}
+{{- define "hlmfk-0-0-98190e0b7e.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
-        AUTH_SECRET: {{ .Values.AUTH_SECRET  | quote }}
-        AUTO_AUTHENTICATE_TOKEN: {{ .Values.AUTO_AUTHENTICATE_TOKEN  | quote }}
-        DB_AUTH_SECRET: {{ .Values.DB_AUTH_SECRET  | quote }}
-        DB_BASE_URL: {{ .Values.DB_BASE_URL  | quote }}
-        DEBUG: {{ .Values.DEBUG  | quote }}
-        NEXTAUTH_URL: {{ .Values.NEXTAUTH_URL  | quote }}
-        ON_PREM: {{ .Values.ON_PREM  | quote }}
-        PORT: {{ .Values.PORT  | quote }}
+        AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
+        AUTO_AUTHENTICATE_TOKEN: {{ if kindIs "string" .Values.env.AUTO_AUTHENTICATE_TOKEN }}{{ .Values.env.AUTO_AUTHENTICATE_TOKEN | quote }}{{ else }}{{ .Values.env.AUTO_AUTHENTICATE_TOKEN }}{{ end }}
+        DB_AUTH_SECRET: {{ if kindIs "string" .Values.env.DB_AUTH_SECRET }}{{ .Values.env.DB_AUTH_SECRET | quote }}{{ else }}{{ .Values.env.DB_AUTH_SECRET }}{{ end }}
+        DB_BASE_URL: {{ if kindIs "string" .Values.env.DB_BASE_URL }}{{ .Values.env.DB_BASE_URL | quote }}{{ else }}{{ .Values.env.DB_BASE_URL }}{{ end }}
+        DEBUG: {{ if kindIs "string" .Values.env.DEBUG }}{{ .Values.env.DEBUG | quote }}{{ else }}{{ .Values.env.DEBUG }}{{ end }}
+        NEXTAUTH_URL: {{ if kindIs "string" .Values.env.NEXTAUTH_URL }}{{ .Values.env.NEXTAUTH_URL | quote }}{{ else }}{{ .Values.env.NEXTAUTH_URL }}{{ end }}
+        ON_PREM: {{ if kindIs "string" .Values.env.ON_PREM }}{{ .Values.env.ON_PREM | quote }}{{ else }}{{ .Values.env.ON_PREM }}{{ end }}
+        PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
       kind: ConfigMap
       metadata:
         labels:
