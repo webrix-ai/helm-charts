@@ -269,6 +269,15 @@ entries:
     version: 0.1.15
   grafana:
   - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-06-26T11:15:06.76642749Z"
+    description: A Helm chart for Kubernetes
+    digest: adbb26434ad5be720beced5bf6f8010d2ebcbbea507891f47ee0486760a7de1e
+    name: grafana
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/grafana-0.1.21/grafana-0.1.21.tgz
+    version: 0.1.21
+  - apiVersion: v2
     created: "2025-06-25T15:19:45.518368161Z"
     description: A Helm chart for Kubernetes
     digest: 96333cf308bc70802b4281f126c882efa8bdc05f3424e3a023cbd91a9f7c2e4e
@@ -277,6 +286,42 @@ entries:
     - https://github.com/webrix-ai/helm-charts/releases/download/grafana-0.1.20/grafana-0.1.20.tgz
     version: 0.1.20
   mcp-s:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2025-06-26T11:15:06.897613566Z"
+    dependencies:
+    - condition: app.enabled
+      name: app
+      repository: file://../mcp-s-app
+      version: x.x.x
+    - condition: connect.enabled
+      name: connect
+      repository: file://../mcp-s-connect
+      version: x.x.x
+    - alias: dbservice
+      condition: dbservice.enabled
+      name: db-service
+      repository: file://../mcp-s-db-service
+      version: x.x.x
+    - condition: run.enabled
+      name: run
+      repository: file://../mcp-s-run
+      version: x.x.x
+    - condition: grafana.enabled
+      name: grafana
+      repository: file://../mcp-s-grafana
+      version: x.x.x
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.12
+    description: A Helm chart for Webrix application
+    digest: e015bd2d468d14a15016798ff22da3c779bc0ef8af4c125175a0813930e1135c
+    name: mcp-s
+    type: application
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/mcp-s-0.1.22/mcp-s-0.1.22.tgz
+    version: 0.1.22
   - apiVersion: v2
     appVersion: 1.0.1
     created: "2025-06-25T15:19:45.661940477Z"
@@ -906,4 +951,4 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/run-0.1.15/run-0.1.15.tgz
     version: 0.1.15
-generated: "2025-06-25T15:19:45.836733431Z"
+generated: "2025-06-26T11:15:06.89789712Z"
