@@ -1,11 +1,17 @@
-{{- define "hlmfk-0-0-7baf95b9f1.yamls" }}
+{{- define "hlmfk-0-0-4c5f0e75ff.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
+        AUTH_KEYCLOAK_ID: {{ if kindIs "string" .Values.env.AUTH_KEYCLOAK_ID }}{{ .Values.env.AUTH_KEYCLOAK_ID | quote }}{{ else }}{{ .Values.env.AUTH_KEYCLOAK_ID }}{{ end }}
+        AUTH_KEYCLOAK_ISSUER: {{ if kindIs "string" .Values.env.AUTH_KEYCLOAK_ISSUER }}{{ .Values.env.AUTH_KEYCLOAK_ISSUER | quote }}{{ else }}{{ .Values.env.AUTH_KEYCLOAK_ISSUER }}{{ end }}
+        AUTH_KEYCLOAK_SECRET: {{ if kindIs "string" .Values.env.AUTH_KEYCLOAK_SECRET }}{{ .Values.env.AUTH_KEYCLOAK_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_KEYCLOAK_SECRET }}{{ end }}
+        AUTH_PROVIDER: {{ if kindIs "string" .Values.env.AUTH_PROVIDER }}{{ .Values.env.AUTH_PROVIDER | quote }}{{ else }}{{ .Values.env.AUTH_PROVIDER }}{{ end }}
         AUTH_SECRET: {{ if kindIs "string" .Values.env.AUTH_SECRET }}{{ .Values.env.AUTH_SECRET | quote }}{{ else }}{{ .Values.env.AUTH_SECRET }}{{ end }}
+        AUTH_URL: {{ if kindIs "string" .Values.env.AUTH_URL }}{{ .Values.env.AUTH_URL | quote }}{{ else }}{{ .Values.env.AUTH_URL }}{{ end }}
+        CONNECT_URL: {{ if kindIs "string" .Values.env.CONNECT_URL }}{{ .Values.env.CONNECT_URL | quote }}{{ else }}{{ .Values.env.CONNECT_URL }}{{ end }}
         DB_AUTH_SECRET: {{ if kindIs "string" .Values.env.DB_AUTH_SECRET }}{{ .Values.env.DB_AUTH_SECRET | quote }}{{ else }}{{ .Values.env.DB_AUTH_SECRET }}{{ end }}
         DB_BASE_URL: {{ if kindIs "string" .Values.env.DB_BASE_URL }}{{ .Values.env.DB_BASE_URL | quote }}{{ else }}{{ .Values.env.DB_BASE_URL }}{{ end }}
         NEXT_PUBLIC_CONNECT_URL: {{ if kindIs "string" .Values.env.NEXT_PUBLIC_CONNECT_URL }}{{ .Values.env.NEXT_PUBLIC_CONNECT_URL | quote }}{{ else }}{{ .Values.env.NEXT_PUBLIC_CONNECT_URL }}{{ end }}
@@ -13,7 +19,9 @@ manifests:
         NEXTAUTH_SECRET: {{ if kindIs "string" .Values.env.NEXTAUTH_SECRET }}{{ .Values.env.NEXTAUTH_SECRET | quote }}{{ else }}{{ .Values.env.NEXTAUTH_SECRET }}{{ end }}
         NEXTAUTH_URL: {{ if kindIs "string" .Values.env.NEXTAUTH_URL }}{{ .Values.env.NEXTAUTH_URL | quote }}{{ else }}{{ .Values.env.NEXTAUTH_URL }}{{ end }}
         ON_PREM: {{ if kindIs "string" .Values.env.ON_PREM }}{{ .Values.env.ON_PREM | quote }}{{ else }}{{ .Values.env.ON_PREM }}{{ end }}
+        ORG: {{ if kindIs "string" .Values.env.ORG }}{{ .Values.env.ORG | quote }}{{ else }}{{ .Values.env.ORG }}{{ end }}
         PORT: {{ if kindIs "string" .Values.env.PORT }}{{ .Values.env.PORT | quote }}{{ else }}{{ .Values.env.PORT }}{{ end }}
+        RUN_URL: {{ if kindIs "string" .Values.env.RUN_URL }}{{ .Values.env.RUN_URL | quote }}{{ else }}{{ .Values.env.RUN_URL }}{{ end }}
       kind: ConfigMap
       metadata:
         labels:
