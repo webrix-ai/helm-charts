@@ -59,6 +59,15 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2025-06-26T18:06:03.209043662Z"
+    description: A Helm chart for Kubernetes
+    digest: 84b19e88397e529812ca8012060b54430bdf3d1dc9536871d1dc119cad109dd6
+    name: app
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/app-0.1.31/app-0.1.31.tgz
+    version: 0.1.31
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2025-06-26T17:52:30.663288092Z"
     description: A Helm chart for Kubernetes
     digest: 98f64db2d820442ceeea69bf5230fd6a3cda0322be79d12cc3d6900b58294343
@@ -219,6 +228,15 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/connect-1.0.0/connect-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-06-26T18:06:03.405213948Z"
+    description: A Helm chart for Kubernetes
+    digest: d44e646047ab487bf9796148bcf99bb9674fe7ecc9d0a50fd0e154ac2aab545c
+    name: connect
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/connect-0.1.31/connect-0.1.31.tgz
+    version: 0.1.31
   - apiVersion: v2
     appVersion: 0.0.1
     created: "2025-06-26T17:52:30.808128311Z"
@@ -391,6 +409,15 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2025-06-26T18:06:03.63279816Z"
+    description: A Helm chart for Kubernetes
+    digest: 00a23d24ccb15931b82cbb54f70519fa3bcf9735f10b234a6fa9e29ef578ce0a
+    name: db-service
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/db-service-0.1.31/db-service-0.1.31.tgz
+    version: 0.1.31
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2025-06-26T17:52:30.928127996Z"
     description: A Helm chart for Kubernetes
     digest: 0abc506538cfda4454e174f0864379b4a36bf39677bdc58b68d9643edfcce4df
@@ -511,6 +538,15 @@ entries:
     - https://github.com/webrix-ai/helm-charts/releases/download/db-service-0.1.15/db-service-0.1.15.tgz
     version: 0.1.15
   grafana:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-06-26T18:06:03.966598433Z"
+    description: A Helm chart for Kubernetes
+    digest: 6adbb9278b95cb2f96d15f0f6338b342c57bcc6a75eaddbbdd6c1e0e827c7ce2
+    name: grafana
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/grafana-0.1.31/grafana-0.1.31.tgz
+    version: 0.1.31
   - apiVersion: v2
     appVersion: 0.0.1
     created: "2025-06-26T17:52:31.047334846Z"
@@ -1561,6 +1597,15 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2025-06-26T18:06:04.192288809Z"
+    description: A Helm chart for Kubernetes
+    digest: 600806e32008529d07fc1f7cfa6accf103628985bd195acd75e4ca5b8406c77b
+    name: run
+    urls:
+    - https://github.com/webrix-ai/helm-charts/releases/download/run-0.1.31/run-0.1.31.tgz
+    version: 0.1.31
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2025-06-26T17:52:31.330143066Z"
     description: A Helm chart for Kubernetes
     digest: 85d2cc7e1bc5a45ff5bb53c9c2ef0ed1dab63a77a9eadb8145a963e347593016
@@ -1680,4 +1725,4 @@ entries:
     urls:
     - https://github.com/webrix-ai/helm-charts/releases/download/run-0.1.15/run-0.1.15.tgz
     version: 0.1.15
-generated: "2025-06-26T17:52:31.330871412Z"
+generated: "2025-06-26T18:06:04.192894493Z"
