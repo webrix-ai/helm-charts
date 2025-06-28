@@ -57,17 +57,17 @@ jobs:
           git commit -m "chore: bump chart version to $NEW_VERSION" || echo "No changes to commit"
           git push origin HEAD:main
 
-      - name: Create charts from services
-        working-directory: ./helm-charts
-        run: |
-          # read chart version from charts/mcp-s/Chart.yaml
-          CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
-          echo "Chart version: $CHART_VERSION"
-          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize env=base/environment-values.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/environment-values.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize env=base/environment-values.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/environment-values.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize env=base/environment-values.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/environment-values.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize env=base/environment-values.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/environment-values.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize env=base/environment-values.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/environment-values.env --clear true --chart-version $CHART_VERSION
+          - name: Create charts from services
+          working-directory: ./helm-charts
+          run: |
+            # read chart version from charts/mcp-s/Chart.yaml
+            CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
+            echo "Chart version: $CHART_VERSION"
+            npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+            npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+            npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+            npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+            npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
 
       # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
       - name: Replace image names
