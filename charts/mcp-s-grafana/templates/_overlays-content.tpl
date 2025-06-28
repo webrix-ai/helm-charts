@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-5d80547625.yamls" }}
+{{- define "hlmfk-0-0-165a783bc9.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -43,6 +43,8 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: on-prem-mcp-s-grafana-container-vars-6ct58987ht
+              - configMapRef:
+                  name: mcp-s-grafana-environment-values
               image: mcp/grafana:latest
               name: mcp-s-grafana
               ports:
