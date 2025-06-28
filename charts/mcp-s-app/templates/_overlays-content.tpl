@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-2ba5fdb37d.yamls" }}
+{{- define "hlmfk-0-0-41079e0ee5.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -76,6 +76,8 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-app-container-vars
+              - configMapRef:
+                  name: mcp-s-app-environment-values
               image: quay.io/idan-chetrit/mcp-s-app:latest
               name: mcp-s-app
               ports:
