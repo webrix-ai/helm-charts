@@ -1,5 +1,5 @@
-{{- $all := fromYaml (include "hlmfk-0-0-2ba5fdb37d.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "hlmfk-0-0-2ba5fdb37d.kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "hlmfk-0-0-58fd4d5639.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "hlmfk-0-0-58fd4d5639.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}

@@ -1,10 +1,12 @@
-{{- define "hlmfk-0-0-2ba5fdb37d.yamls" }}
+{{- define "hlmfk-0-0-58fd4d5639.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
   - spec: 
       apiVersion: v1
       data:
+        AUTH_GOOGLE_ID: {{ .Values.env.AUTH_GOOGLE_ID | quote }}
+        AUTH_GOOGLE_SECRET: {{ .Values.env.AUTH_GOOGLE_SECRET | quote }}
         AUTH_KEYCLOAK_ID: {{ .Values.env.AUTH_KEYCLOAK_ID | quote }}
         AUTH_KEYCLOAK_ISSUER: {{ .Values.env.AUTH_KEYCLOAK_ISSUER | quote }}
         AUTH_KEYCLOAK_SECRET: {{ .Values.env.AUTH_KEYCLOAK_SECRET | quote }}
@@ -16,7 +18,6 @@ manifests:
         DB_BASE_URL: {{ .Values.env.DB_BASE_URL | quote }}
         NEXTAUTH_DEBUG: {{ .Values.env.NEXTAUTH_DEBUG | quote }}
         NEXTAUTH_SECRET: {{ .Values.env.NEXTAUTH_SECRET | quote }}
-        NEXTAUTH_URL: {{ .Values.env.NEXTAUTH_URL | quote }}
         ON_PREM: {{ .Values.env.ON_PREM | quote }}
         ORG: {{ .Values.env.ORG | quote }}
         PORT: {{ .Values.env.PORT | quote }}

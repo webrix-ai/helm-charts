@@ -24,20 +24,21 @@
 overlay: overlays/on-prem
 env:
   DB_BASE_URL: http://mcp-s-db-service
+  AUTH_URL: https://mcp-s-app.mcp-s.com
+  CONNECT_URL: https://mcp-s-connect.mcp-s.com
+  RUN_URL: https://run.mcp-s.com
   AUTH_SECRET: Yt84QvWr9bK3MnLpC5e1ZxDoJ7gTfVsAiX0uRhNd6pU=
   DB_AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
-  NEXTAUTH_URL: https://mcp-s-app.mcp-s.com
-  AUTH_URL: https://mcp-s-app.mcp-s.com
   PORT: "3000"
   ON_PREM: "true"
   NEXTAUTH_SECRET: Qw8rTz2vXy5pLm9nJk4sVb7cHn3dZx1aE6uYqPoRtS8w=
   NEXTAUTH_DEBUG: "true"
-  CONNECT_URL: https://mcp-s-connect.mcp-s.com
   AUTH_PROVIDER: ""
   AUTH_KEYCLOAK_ID: ""
   AUTH_KEYCLOAK_SECRET: ""
   AUTH_KEYCLOAK_ISSUER: ""
-  RUN_URL: https://run.mcp-s.com
+  AUTH_GOOGLE_ID: ""
+  AUTH_GOOGLE_SECRET: ""
   ORG: on-prem-org
 globals:
   addStandardHeaders: false
