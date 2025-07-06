@@ -29,9 +29,9 @@ env:
   NEXTAUTH_URL: https://mcp-s-connect.mcp-s.com
   PORT: "3000"
   AUTO_AUTHENTICATE_TOKEN: Yp49XtVm7qN2RbLsG8cKeZwT5oDh1uMiA3vJfQxL6sE=
-  DEBUG: "true"
-  ON_PREM: "true"
   RUN_URL: https://run.mcp-s.com
+  ON_PREM: "true"
   ORG: on-prem-org
+  DEBUG: "true"
 globals:
   addStandardHeaders: false

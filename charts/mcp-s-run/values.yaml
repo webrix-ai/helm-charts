@@ -26,8 +26,8 @@ env:
   DB_SERVICE_URL: http://mcp-s-db-service
   PORT: "3000"
   AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
-  ORG: on-prem-org
   CONNECT_URL: https://connect.mcp-s.com
   BASE_URL: https://run.mcp-s.com
+  ORG: on-prem-org
 globals:
   addStandardHeaders: false

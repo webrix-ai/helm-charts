@@ -26,8 +26,6 @@ env:
   DATABASE_URL: postgres://postgres:postgres@postgres-postgresql:5432/postgres?sslmode=disable
   POSTGRES_HOST_AUTH_METHOD: trust
   PORT: "3000"
-  DEBUG_QUERIES: "true"
-  ON_PREM: "true"
   AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
   CONNECT_URL: https://mcp-s-connect.mcp-s.com
   AUTO_AUTHENTICATE_TOKEN: Yp49XtVm7qN2RbLsG8cKeZwT5oDh1uMiA3vJfQxL6sE=
@@ -35,6 +33,8 @@ env:
   RATE_LIMIT_WINDOW: "60000"
   ENCRYPTION_KEY: iL7wUJhqRMPFY0asXqLAn1JjW9kv0OqC4NHtqKHt5VY=
   RUN_URL: https://run.mcp-s.com
+  ON_PREM: "true"
   ORG: on-prem-org
+  DEBUG_QUERIES: "true"
 globals:
   addStandardHeaders: false
