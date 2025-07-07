@@ -1,12 +1,13 @@
 name: Release Charts
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'chart/**'
   workflow_dispatch:
+    inputs:
+      release_chart:
+        description: "Mark the release as Latest? (unchecked = publish but not latest)"
+        type: boolean
+        default: false
+        required: true
 
 jobs:
   build:
@@ -63,11 +64,11 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
-          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize-configmap env=mcp-s-app-container-vars --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-connect-container-vars --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-db-service-container-vars --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-run-container-vars --clear true --chart-version $CHART_VERSION
+          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-grafana-container-vars --clear true --chart-version $CHART_VERSION
 
       # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
       - name: Replace image names
@@ -114,3 +115,4 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           skip_existing: true
+          mark_as_latest: ${{ github.event.inputs.release_chart }}
