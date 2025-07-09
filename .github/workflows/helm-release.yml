@@ -8,7 +8,35 @@ on:
         type: boolean
         default: false
         required: true
-
+      chart_version:
+        description: "Chart version to use (leave empty to auto-bump)"
+        type: string
+        required: false
+      app_tag:
+        description: "Docker image tag for mcp-s-app"
+        type: string
+        required: false
+        default: "latest"
+      connect_tag:
+        description: "Docker image tag for mcp-s-connect"
+        type: string
+        required: false
+        default: "latest"
+      db_service_tag:
+        description: "Docker image tag for mcp-s-db-service"
+        type: string
+        required: false
+        default: "latest"
+      run_tag:
+        description: "Docker image tag for mcp-s-run"
+        type: string
+        required: false
+        default: "latest"
+      grafana_tag:
+        description: "Docker image tag for mcp-s-grafana"
+        type: string
+        required: false
+        default: "latest"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -50,9 +78,16 @@ jobs:
         run: |
           CHART_FILE=charts/mcp-s/Chart.yaml
           OLD_VERSION=$(yq -r '.version' "$CHART_FILE")
-          IFS='.' read -r major minor patch <<< "$OLD_VERSION"
-          NEW_VERSION="$major.$minor.$((patch+1))"
-          echo "Bumping version: $OLD_VERSION -> $NEW_VERSION"
+          
+          if [ -n "${{ inputs.chart_version }}" ]; then
+            NEW_VERSION="${{ inputs.chart_version }}"
+            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION"
+          else
+            IFS='.' read -r major minor patch <<< "$OLD_VERSION"
+            NEW_VERSION="$major.$minor.$((patch+1))"
+            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION"
+          fi
+          
           yq -i ".version = \"$NEW_VERSION\"" "$CHART_FILE"
           git add "$CHART_FILE"
           git commit -m "chore: bump chart version to $NEW_VERSION" || echo "No changes to commit"
@@ -64,21 +99,63 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
-          npx helmify-kustomize build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize-configmap env=mcp-s-app-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-connect-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-db-service-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-run-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-grafana-container-vars --clear true --chart-version $CHART_VERSION
 
-      # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
-      - name: Replace image names
-        working-directory: ./helm-charts
-        run: |
-          find ./charts -type f -name 'values.yaml' | while read file; do
-            sed -i 's/quay.io\/idan-chetrit\/mcp-s-run/quay.io\/idan-chetrit\/run/g' "$file"
-            sed -i 's/quay.io\/idan-chetrit\/mcp-s-db-service/quay.io\/idan-chetrit\/db-service/g' "$file"
-          done
+          npx helmify-kustomize build ../deployment/mcp-s-app/deploy \
+            --target ./charts/mcp-s-app \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-app-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
 
+          sed -i 's/newTag: .*/newTag: ${{ inputs.app_tag }}/g' ./charts/mcp-s-app/values.yaml
+
+          
+          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy \
+            --target ./charts/mcp-s-connect \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-connect-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+          
+          sed -i 's/newTag: .*/newTag: ${{ inputs.connect_tag }}/g' ./charts/mcp-s-connect/values.yaml
+          
+          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy \
+            --target ./charts/mcp-s-db-service \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-db-service-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+          
+          sed -i 's/newTag: .*/newTag: ${{ inputs.db_service_tag }}/g' ./charts/mcp-s-db-service/values.yaml
+
+          npx helmify-kustomize build ../deployment/mcp-s-run/deploy \
+            --target ./charts/mcp-s-run \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-run-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+          
+          sed -i 's/newTag: .*/newTag: ${{ inputs.run_tag }}/g' ./charts/mcp-s-run/values.yaml
+          
+          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy \
+            --target ./charts/mcp-s-grafana \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-grafana-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION 
+
+          sed -i 's/newTag: .*/newTag: ${{ inputs.grafana_tag }}/g' ./charts/mcp-s-grafana/values.yaml
+          
       - name: add to git
         working-directory: helm-charts
         run: |
@@ -115,4 +192,4 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           skip_existing: true
-          mark_as_latest: ${{ github.event.inputs.release_chart }}
+          mark_as_latest: ${{ inputs.release_chart }}
