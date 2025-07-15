@@ -12,31 +12,6 @@ on:
         description: "Chart version to use (leave empty to auto-bump)"
         type: string
         required: false
-      app_tag:
-        description: "Docker image tag for mcp-s-app"
-        type: string
-        required: false
-        default: "latest"
-      connect_tag:
-        description: "Docker image tag for mcp-s-connect"
-        type: string
-        required: false
-        default: "latest"
-      db_service_tag:
-        description: "Docker image tag for mcp-s-db-service"
-        type: string
-        required: false
-        default: "latest"
-      run_tag:
-        description: "Docker image tag for mcp-s-run"
-        type: string
-        required: false
-        default: "latest"
-      grafana_tag:
-        description: "Docker image tag for mcp-s-grafana"
-        type: string
-        required: false
-        default: "latest"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -67,6 +42,7 @@ jobs:
 
       - name: Checkout deployment
         uses: actions/checkout@v4
+        id: checkout-deployment
         with:
           path: deployment
           repository: webrix-ai/deployment
@@ -75,23 +51,23 @@ jobs:
 
       - name: Bump Chart Version
         working-directory: helm-charts
+        id: bump-chart-version
         run: |
           CHART_FILE=charts/mcp-s/Chart.yaml
           OLD_VERSION=$(yq -r '.version' "$CHART_FILE")
           
           if [ -n "${{ inputs.chart_version }}" ]; then
             NEW_VERSION="${{ inputs.chart_version }}"
-            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION"
+            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
           else
             IFS='.' read -r major minor patch <<< "$OLD_VERSION"
             NEW_VERSION="$major.$minor.$((patch+1))"
-            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION"
+            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
           fi
           
           yq -i ".version = \"$NEW_VERSION\"" "$CHART_FILE"
-          git add "$CHART_FILE"
-          git commit -m "chore: bump chart version to $NEW_VERSION" || echo "No changes to commit"
-          git push origin HEAD:main
+          echo "commit_sha=${{ steps.checkout-deployment.outputs.commit_sha }}" >> $GITHUB_OUTPUT
+          echo "Chart version: $NEW_VERSION"
 
       - name: Create charts from services
         working-directory: ./helm-charts
@@ -99,6 +75,7 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
+          echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.checkout-deployment.outputs.commit_sha }}"
 
           npx helmify-kustomize build ../deployment/mcp-s-app/deploy \
             --target ./charts/mcp-s-app \
@@ -109,8 +86,6 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
 
-          sed -i 's/newTag: .*/newTag: ${{ inputs.app_tag }}/g' ./charts/mcp-s-app/values.yaml
-
           
           npx helmify-kustomize build ../deployment/mcp-s-connect/deploy \
             --target ./charts/mcp-s-connect \
@@ -120,9 +95,7 @@ jobs:
             --parametrize-configmap env=mcp-s-connect-container-vars \
             --clear true \
             --chart-version $CHART_VERSION
-          
-          sed -i 's/newTag: .*/newTag: ${{ inputs.connect_tag }}/g' ./charts/mcp-s-connect/values.yaml
-          
+                    
           npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy \
             --target ./charts/mcp-s-db-service \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
@@ -132,8 +105,6 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
           
-          sed -i 's/newTag: .*/newTag: ${{ inputs.db_service_tag }}/g' ./charts/mcp-s-db-service/values.yaml
-
           npx helmify-kustomize build ../deployment/mcp-s-run/deploy \
             --target ./charts/mcp-s-run \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
@@ -142,9 +113,7 @@ jobs:
             --parametrize-configmap env=mcp-s-run-container-vars \
             --clear true \
             --chart-version $CHART_VERSION
-          
-          sed -i 's/newTag: .*/newTag: ${{ inputs.run_tag }}/g' ./charts/mcp-s-run/values.yaml
-          
+                    
           npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy \
             --target ./charts/mcp-s-grafana \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
@@ -153,15 +122,13 @@ jobs:
             --parametrize-configmap env=mcp-s-grafana-container-vars \
             --clear true \
             --chart-version $CHART_VERSION 
-
-          sed -i 's/newTag: .*/newTag: ${{ inputs.grafana_tag }}/g' ./charts/mcp-s-grafana/values.yaml
           
       - name: add to git
         working-directory: helm-charts
         run: |
           git add .
           if ! git diff-index --quiet HEAD --; then
-            git commit -m "updated charts"
+            git commit -m "Updated charts version: ${{ steps.bump-chart-version.outputs.chart_version }} based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
             git push
           else
             echo "No changes to commit, working tree is clean"
