@@ -22,6 +22,7 @@ manifests:
         ORG: {{ .Values.env.ORG | quote }}
         PORT: {{ .Values.env.PORT | quote }}
         RUN_URL: {{ .Values.env.RUN_URL | quote }}
+        OPENAI_API_KEY: {{ .Values.env.OPENAI_API_KEY | quote }}
       kind: ConfigMap
       metadata:
         labels:
