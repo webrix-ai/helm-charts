@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-fa01c2fd56.kustomizeFiles" }}
+{{- define "hlmfk-0-0-7b59532831.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
@@ -21,6 +21,30 @@ manifests:
       resources:
         - deployment.yaml
         - service.yaml
+  - metadata:
+      folder: overlays/demo
+      filePath: overlays/demo/kustomization.yaml
+    spec:
+      apiVersion: kustomize.config.k8s.io/v1beta1
+      configMapGenerator:
+        - behavior: merge
+          name: mcp-s-db-service-environment-values
+          envs:
+            - environment-values.env
+        - behavior: merge
+          name: mcp-s-db-service-container-vars
+          envs:
+            - container.env
+      kind: Kustomization
+      labels:
+        - pairs:
+            app.kubernetes.io/version: null
+      namespace: demo
+      resources:
+        - ../../base
+      images:
+        - name: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-db-service
+          newTag: null
   - metadata:
       folder: overlays/dev
       filePath: overlays/dev/kustomization.yaml
@@ -66,8 +90,9 @@ manifests:
       resources:
         - ../../base
       images:
-        - name: quay.io/idan-chetrit/db-service
-          newTag: null
+        - name: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-db-service
+          newName: quay.io/idan-chetrit/mcp-s-db-service
+          newTag: latest
   - metadata:
       folder: overlays/prod
       filePath: overlays/prod/kustomization.yaml
@@ -89,6 +114,11 @@ manifests:
         - pairs:
             app.kubernetes.io/version: ""
       namespace: prod
+      patches:
+        - path: deployment-add-service-secrets-patch.yaml
+          target:
+            kind: Deployment|Rollout
       resources:
         - ../../base
+        - service-secrets.yaml
 {{- end }}
