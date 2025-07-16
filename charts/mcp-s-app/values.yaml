@@ -1,5 +1,6 @@
 # To control the output of the manifests, you can use the following properties in the globals section:
 # FYI helm chart has the concept globals but it's with the property name "global" and not "globals"
+# helmifyPrefix: "globals"
 # globals:
 #  addStandardHeaders: false # by default it's true, `true` will add the standard helm headers to the manifests
 #  namespace: "namespace"
@@ -14,13 +15,25 @@
 #    - name: "resource"
 #      version: "v1"
 #      kind: "Resource"
-# images:
-#  - image: "old-image"
-#    newName: "new-image"
-#    newTag: "new-tag"
-#    digest: "digest"
-#    pullSecrets:
-#      - name: "pull-secret"
+#   images:
+#    - image: "old-image"
+#      newName: "new-image"
+#      newTag: "new-tag"
+#      digest: "digest"
+#      pullSecrets:
+#       - name: "pull-secret"
+#  patches:
+#    - target:
+#      group: "apps"
+#      version: "v1"
+#      kind: "Deployment"
+#      name: "nginx-deployment"
+#    ops:
+#      - op: "add"
+#        path: "/spec/template/spec/containers/0/env/-"
+#        value:
+#          name: "LOG_LEVEL"
+#          value: "debug"
 overlay: overlays/on-prem
 env:
   DB_BASE_URL: http://mcp-s-db-service
@@ -30,8 +43,21 @@ env:
   NEXTAUTH_SECRET: Qw8rTz2vXy5pLm9nJk4sVb7cHn3dZx1aE6uYqPoRtS8w=
   ORG: on-prem-org
   ON_PREM: "true"
+namespace: mcp-s
+replicas: 1
+applicationVersion: latest
 globals:
   addStandardHeaders: false
   images:
     - image: quay.io/idan-chetrit/mcp-s-app
-      newTag: 1.0.0
+      newTag: latest
+  namespace: mcp-s
+  replicas: 1
+  patches:
+    - target:
+        kind: Deployment
+        name: mcp-s-app
+      ops:
+        - op: add
+          path: /spec/replicas
+          value: 1

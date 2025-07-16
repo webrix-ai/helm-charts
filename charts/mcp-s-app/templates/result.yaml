@@ -1,5 +1,5 @@
 {{- $all := fromYaml (include "hlmfk-0-0-36087aa001.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "hlmfk-0-0-36087aa001.kustomizeFiles" (dict "Values" .Values) ) }}
+
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}
@@ -9,17 +9,22 @@
 {{- end }}
 
 {{- range $key, $manifest := $all.manifests }}
+{{- $globals := "" }}
+{{- if $.Values.helmifyPrefix }}
+  {{- $globals = index $.Values $.Values.helmifyPrefix }}
+{{- else }}
+  {{- $globals = $.Values.globals }}
+{{- end }}
 {{- include "hlmfk-0-0.ensureMetadata" (dict "manifest" $manifest)}}
-{{- if $.Values.images }}
-  {{- include "hlmfk-0-0.updataImages" (dict "manifest" $manifest "images" $.Values.images)}}
-{{- end}}
-{{- if $.Values.globals }}
-{{- include "hlmfk-0-0.setNamespace" (dict "manifest" $manifest "globals" $.Values.globals)}}
-{{- include "hlmfk-0-0.setNamePrefix" (dict "manifest" $manifest "globals" $.Values.globals)}}
-{{- include "hlmfk-0-0.setNameSuffix" (dict "manifest" $manifest "globals" $.Values.globals)}}
-{{- include "hlmfk-0-0.nameReleasePrefix" (dict "manifest" $manifest "globals" $.Values.globals "Values" $.Values)}}
-{{- include "hlmfk-0-0.labels" (dict "manifest" $manifest "globals" $.Values.globals)}}
-{{- include "hlmfk-0-0.annotations" (dict "manifest" $manifest "globals" $.Values.globals)}}
+{{- include "hlmfk-0-0.updataImages" (dict "manifest" $manifest "globals" $globals)}}
+{{- if $globals }}
+{{- include "hlmfk-0-0.setNamespace" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-0-0.setNamePrefix" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-0-0.setNameSuffix" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-0-0.nameReleasePrefix" (dict "manifest" $manifest "globals" $globals "Values" $.Values)}}
+{{- include "hlmfk-0-0.labels" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-0-0.annotations" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-0-0.applyManifestPatchers" (dict "manifest" $manifest "globals" $globals)}}
 {{- end}}
 
 
@@ -29,14 +34,7 @@
 
 {{- end }}
 
-{{- if and .Values.kustomizeFiles .Values.kustomizeFiles.include }}
-{{- if .Values.kustomizeFiles.printNames}}
-{{- $kustomizeManifests := fromYaml (include "hlmfk-0-0.filterManifests" (dict "manifests" $kustomizeFiles.manifests "Values" $.Values))}}
-{{- include "hlmfk-0-0.printManifests"  $kustomizeManifests }}
-{{- else }}
-{{- include "hlmfk-0-0.printManifests" $kustomizeFiles }}
-{{- end }}
-{{- end }}
+
 
 {{- if .Values.resources }}
 {{- range $key, $manifest := .Values.resources }}
