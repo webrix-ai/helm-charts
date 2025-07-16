@@ -1,5 +1,5 @@
-{{- $all := fromYaml (include "hlmfk-0-0-58fd4d5639.yamls" (dict "Values" .Values) ) }}
-{{- $kustomizeFiles := fromYaml (include "hlmfk-0-0-58fd4d5639.kustomizeFiles" (dict "Values" .Values) ) }}
+{{- $all := fromYaml (include "hlmfk-0-0-36087aa001.yamls" (dict "Values" .Values) ) }}
+{{- $kustomizeFiles := fromYaml (include "hlmfk-0-0-36087aa001.kustomizeFiles" (dict "Values" .Values) ) }}
 
 {{- if .Values.manifests }}
 {{- range $key, $manifest := .Values.manifests }}
@@ -21,6 +21,12 @@
 {{- include "hlmfk-0-0.labels" (dict "manifest" $manifest "globals" $.Values.globals)}}
 {{- include "hlmfk-0-0.annotations" (dict "manifest" $manifest "globals" $.Values.globals)}}
 {{- end}}
+
+
+{{- if and (hasKey $.Values "env") }}
+{{ include "hlmfk-0-0.updateConfigMap" (dict "manifest" $manifest "name" "mcp-s-app-container-vars" "data" $.Values.env) }}
+{{- end }}
+
 {{- end }}
 
 {{- if and .Values.kustomizeFiles .Values.kustomizeFiles.include }}

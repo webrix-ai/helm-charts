@@ -63,6 +63,21 @@ manifests:
 {{- end }}
 {{- end }}
 
+{{- define "hlmfk-0-0.updateConfigMap" }}
+{{- $cmName := .name }}
+{{- $patch  := .data }}
+{{- $manifest := .manifest }}
+{{- if and (eq $manifest.spec.kind "ConfigMap") (eq $manifest.spec.metadata.name $cmName) }}
+  {{- if not $manifest.spec.data }}
+    {{- $n := set $manifest.spec "data" dict }}
+  {{- end }}
+  {{- range $k, $v := $patch }}
+    {{- $key := printf "%v" $k }}
+    {{- $n := set $manifest.spec.data $key (printf "%v" $v) }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
 
 {{- define "hlmfk-0-0.labels" }} 
 {{- if .globals.labels}}
@@ -110,15 +125,15 @@ manifests:
       {{- range $i, $image := $images }}
       
         {{- if regexMatch (printf "^%s(:.*)?$" $image.image) $currentImage }}
-          {{ $newName := include "image.name"  $container.image }}
+          {{ $newName := include "hlmfk-0-0.image.name"  $container.image }}
           {{- if $image.newName}}
             {{- $newName = $image.newName}}
           {{- end}}
-          {{ $newTag := include "image.tag"  $container.image }}
+          {{ $newTag := include "hlmfk-0-0.image.tag"  $container.image }}
           {{- if $image.newTag }}
           {{- $newTag = printf ":%s" (print $image.newTag)}}
           {{- end }}
-          {{ $newDigest := include "image.digest"  $container.image }}
+          {{ $newDigest := include "hlmfk-0-0.image.digest"  $container.image }}
           {{- if $image.digest }}
             {{- $newDigest = printf "@%s" (print $image.digest) }}
           {{- end}}

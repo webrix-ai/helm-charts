@@ -21,6 +21,12 @@
 {{- include "hlmfk-0-0.labels" (dict "manifest" $manifest "globals" $.Values.globals)}}
 {{- include "hlmfk-0-0.annotations" (dict "manifest" $manifest "globals" $.Values.globals)}}
 {{- end}}
+
+
+{{- if and (hasKey $.Values "env") }}
+{{ include "hlmfk-0-0.updateConfigMap" (dict "manifest" $manifest "name" "mcp-s-connect-container-vars" "data" $.Values.env) }}
+{{- end }}
+
 {{- end }}
 
 {{- if and .Values.kustomizeFiles .Values.kustomizeFiles.include }}

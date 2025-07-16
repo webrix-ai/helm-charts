@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-62f4e37a48.yamls" }}
+{{- define "hlmfk-0-0-bdc462df32.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -9,6 +9,7 @@ manifests:
         BASE_URL: {{ .Values.env.BASE_URL | quote }}
         CONNECT_URL: {{ .Values.env.CONNECT_URL | quote }}
         DB_SERVICE_URL: {{ .Values.env.DB_SERVICE_URL | quote }}
+        LOG_LEVEL: {{ .Values.env.LOG_LEVEL | quote }}
         ORG: {{ .Values.env.ORG | quote }}
         PORT: {{ .Values.env.PORT | quote }}
       kind: ConfigMap
@@ -66,7 +67,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-run-container-vars
-              image: quay.io/idan-chetrit/run:latest
+              image: quay.io/idan-chetrit/mcp-s-run:latest
               name: mcp-s-run
               ports:
               - containerPort: 3000

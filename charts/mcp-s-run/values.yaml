@@ -10,24 +10,28 @@
 #    key: "label"
 #  annotations:
 #    key: "annotation"
-#  images:
-#    - image: "old-image"
-#      newName: "new-image"
-#      newTag: "new-tag"
-#      digest: "digest"
-#      pullSecrets:
-#        - name: "pull-secret"
 #  resources:
 #    - name: "resource"
 #      version: "v1"
 #      kind: "Resource"
+# images:
+#  - image: "old-image"
+#    newName: "new-image"
+#    newTag: "new-tag"
+#    digest: "digest"
+#    pullSecrets:
+#      - name: "pull-secret"
 overlay: overlays/on-prem
 env:
   DB_SERVICE_URL: http://mcp-s-db-service
   PORT: "3000"
-  AUTH_SECRET: Kd73PfXo5sL1YqZrT0e9dVbU8qWn4cMaH2jRuLtX3kE=
-  CONNECT_URL: https://connect.mcp-s.com
+  AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=
   BASE_URL: https://run.mcp-s.com
+  CONNECT_URL: https://connect2.mcp-s.com
+  LOG_LEVEL: info
   ORG: on-prem-org
 globals:
   addStandardHeaders: false
+  images:
+    - image: quay.io/idan-chetrit/run
+      newTag: 1.0.0

@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-58fd4d5639.kustomizeFiles" }}
+{{- define "hlmfk-0-0-36087aa001.kustomizeFiles" }}
 manifests:
   - metadata:
       folder: base
@@ -22,10 +22,68 @@ manifests:
         - deployment.yaml
         - service.yaml
   - metadata:
+      folder: components/ingress
+      filePath: components/ingress/kustomization.yaml
+    spec:
+      apiVersion: kustomize.config.k8s.io/v1alpha1
+      kind: Component
+      resources:
+        - ingress.yaml
+      replacements:
+        - path: ./host-replacement.yaml
+  - metadata:
+      folder: components/ingress-tls
+      filePath: components/ingress-tls/kustomization.yaml
+    spec:
+      apiVersion: kustomize.config.k8s.io/v1alpha1
+      kind: Component
+      configMapGenerator:
+        - behavior: merge
+          name: mcp-s-app-environment-values
+          literals:
+            - INGRESS_TLS_SECRET_NAME=mcp-s-app-tls-cert
+      patches:
+        - path: ./add-cert-annotations-patch.yaml
+      replacements:
+        - path: ./tls-host-replacement.yaml
+        - path: ./tls-secret-name-replacement.yaml
+  - metadata:
+      folder: overlays/demo
+      filePath: overlays/demo/kustomization.yaml
+    spec:
+      apiVersion: kustomize.config.k8s.io/v1beta1
+      components:
+        - ../../components/ingress
+      configMapGenerator:
+        - behavior: merge
+          envs:
+            - environment-values.env
+          name: mcp-s-app-environment-values
+        - behavior: merge
+          envs:
+            - container.env
+          name: mcp-s-app-container-vars
+      images:
+        - name: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-app
+      kind: Kustomization
+      labels:
+        - pairs:
+            app.kubernetes.io/version: ""
+      namespace: demo
+      patches:
+        - path: deployment-add-service-secrets-patch.yaml
+          target:
+            kind: Deployment|Rollout
+      resources:
+        - ../../base
+        - service-secrets.yaml
+  - metadata:
       folder: overlays/dev
       filePath: overlays/dev/kustomization.yaml
     spec:
       apiVersion: kustomize.config.k8s.io/v1beta1
+      components:
+        - ../../components/ingress
       configMapGenerator:
         - behavior: merge
           envs:
@@ -42,8 +100,13 @@ manifests:
         - pairs:
             app.kubernetes.io/version: ""
       namespace: dev
+      patches:
+        - path: deployment-add-service-secrets-patch.yaml
+          target:
+            kind: Deployment|Rollout
       resources:
         - ../../base
+        - service-secrets.yaml
   - metadata:
       folder: overlays/on-prem
       filePath: overlays/on-prem/kustomization.yaml
@@ -66,13 +129,16 @@ manifests:
       resources:
         - ../../base
       images:
-        - name: quay.io/idan-chetrit/mcp-s-app
-          newTag: null
+        - name: 992382826040.dkr.ecr.us-east-2.amazonaws.com/mcp-s-app
+          newName: quay.io/idan-chetrit/mcp-s-app
+          newTag: latest
   - metadata:
       folder: overlays/prod
       filePath: overlays/prod/kustomization.yaml
     spec:
       apiVersion: kustomize.config.k8s.io/v1beta1
+      components:
+        - ../../components/ingress
       configMapGenerator:
         - behavior: merge
           envs:
@@ -89,6 +155,11 @@ manifests:
         - pairs:
             app.kubernetes.io/version: ""
       namespace: prod
+      patches:
+        - path: deployment-add-service-secrets-patch.yaml
+          target:
+            kind: Deployment|Rollout
       resources:
         - ../../base
+        - service-secrets.yaml
 {{- end }}

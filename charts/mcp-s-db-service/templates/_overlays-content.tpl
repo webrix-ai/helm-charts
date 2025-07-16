@@ -1,4 +1,4 @@
-{{- define "hlmfk-0-0-fa01c2fd56.yamls" }}
+{{- define "hlmfk-0-0-7b59532831.yamls" }}
 {{- if .Values.overlay }}
 {{- if eq .Values.overlay "overlays/on-prem" }}
 manifests:
@@ -73,7 +73,7 @@ manifests:
             - envFrom:
               - configMapRef:
                   name: mcp-s-db-service-container-vars
-              image: quay.io/idan-chetrit/db-service:latest
+              image: quay.io/idan-chetrit/mcp-s-db-service:latest
               name: mcp-s-db-service
               ports:
               - containerPort: 3000

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_chart:
-        description: "Mark the release as Latest? (unchecked = publish but not latest)"
+        description: "Build and publish happens anyway, (unchecked = publish but not latest)"
         type: boolean
         default: false
         required: true
@@ -77,7 +77,7 @@ jobs:
           echo "Chart version: $CHART_VERSION"
           echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.checkout-deployment.outputs.commit_sha }}"
 
-          npx helmify-kustomize build ../deployment/mcp-s-app/deploy \
+          npx helmify-kustomize@1.1.2 build ../deployment/mcp-s-app/deploy \
             --target ./charts/mcp-s-app \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -87,7 +87,7 @@ jobs:
             --chart-version $CHART_VERSION
 
           
-          npx helmify-kustomize build ../deployment/mcp-s-connect/deploy \
+          npx helmify-kustomize@1.1.2 build ../deployment/mcp-s-connect/deploy \
             --target ./charts/mcp-s-connect \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -96,7 +96,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize build ../deployment/mcp-s-db-service/deploy \
+          npx helmify-kustomize@1.1.2 build ../deployment/mcp-s-db-service/deploy \
             --target ./charts/mcp-s-db-service \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -105,7 +105,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
           
-          npx helmify-kustomize build ../deployment/mcp-s-run/deploy \
+          npx helmify-kustomize@1.1.2 build ../deployment/mcp-s-run/deploy \
             --target ./charts/mcp-s-run \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -114,7 +114,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize build ../deployment/mcp-s-grafana/deploy \
+          npx helmify-kustomize@1.1.2 build ../deployment/mcp-s-grafana/deploy \
             --target ./charts/mcp-s-grafana \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
