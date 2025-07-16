@@ -49,6 +49,14 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.github-auth-token.outputs.token }}
 
+      - name: Get deployment commit SHA
+        id: get-deployment-sha
+        working-directory: deployment
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "Deployment repository commit SHA: $COMMIT_SHA"
+
       - name: Bump Chart Version
         working-directory: helm-charts
         id: bump-chart-version
@@ -58,15 +66,15 @@ jobs:
           
           if [ -n "${{ inputs.chart_version }}" ]; then
             NEW_VERSION="${{ inputs.chart_version }}"
-            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
+            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
           else
             IFS='.' read -r major minor patch <<< "$OLD_VERSION"
             NEW_VERSION="$major.$minor.$((patch+1))"
-            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
+            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
           fi
           
           yq -i ".version = \"$NEW_VERSION\"" "$CHART_FILE"
-          echo "commit_sha=${{ steps.checkout-deployment.outputs.commit_sha }}" >> $GITHUB_OUTPUT
+          echo "commit_sha=${{ steps.get-deployment-sha.outputs.commit_sha }}" >> $GITHUB_OUTPUT
           echo "Chart version: $NEW_VERSION"
 
       - name: Create charts from services
@@ -75,7 +83,7 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
-          echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.checkout-deployment.outputs.commit_sha }}"
+          echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.get-deployment-sha.outputs.commit_sha }}"
 
           npx helmify-kustomize@1.1.4 build ../deployment/mcp-s-app/deploy \
             --target ./charts/mcp-s-app \
@@ -128,7 +136,7 @@ jobs:
         run: |
           git add .
           if ! git diff-index --quiet HEAD --; then
-            git commit -m "Updated charts version: ${{ steps.bump-chart-version.outputs.chart_version }} based on commit: ${{ steps.checkout-deployment.outputs.commit_sha }}"
+            git commit -m "Updated charts version: ${{ steps.bump-chart-version.outputs.chart_version }} based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
             git push
           else
             echo "No changes to commit, working tree is clean" 
