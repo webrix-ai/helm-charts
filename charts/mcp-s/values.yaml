@@ -54,6 +54,7 @@ app:
   replicas: 1
   enabled: true
   appVersion: latest  # will be overriden the image tag
+  applicationVersion: latest  # temporary until pr in deployment is merged
   ingress:
     className: *ingressClassName
     name: app
@@ -75,6 +76,7 @@ run:
   replicas: 1
   enabled: true
   appVersion: latest  # will be overriden the image tag
+  applicationVersion: latest  # temporary until pr in deployment is merged
   ingress:
     className: *ingressClassName
     name: run
@@ -94,6 +96,7 @@ dbservice:
   namespace: *namespace
   replicas: 1
   appVersion: latest  # will be overriden the image tag
+  applicationVersion: latest  # temporary until pr in deployment is merged
   env:
     CONNECT_URL: *connect_url
     DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
@@ -106,6 +109,7 @@ grafana:
   namespace: *namespace
   replicas: 1
   appVersion: latest  # will be overriden the image tag
+  applicationVersion: latest  # temporary until pr in deployment is merged
   globals:
     namespace: *namespace
   env:
