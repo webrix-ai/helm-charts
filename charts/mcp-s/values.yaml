@@ -25,9 +25,12 @@ ingressAnnotations: &ingressAnnotations
 connect:
   env:
     NEXTAUTH_URL: *connect_url
+  enabled: true
   globals:
     namespace: *namespace
-  enabled: true
+  namespace: *namespace
+  replicas: 1
+  appVersion: latest # will be overriden the image tag
   ingress:
     className: *ingressClassName
     name: connect
@@ -47,7 +50,10 @@ app:
     NEXT_PUBLIC_CONNECT_URL: *connect_url
   globals:
     namespace: *namespace
+  namespace: *namespace
+  replicas: 1
   enabled: true
+  appVersion: latest  # will be overriden the image tag
   ingress:
     className: *ingressClassName
     name: app
@@ -65,7 +71,10 @@ app:
 run:
   globals:
     namespace: *namespace
+  namespace: *namespace
+  replicas: 1
   enabled: true
+  appVersion: latest  # will be overriden the image tag
   ingress:
     className: *ingressClassName
     name: run
@@ -81,17 +90,24 @@ run:
             backend: mcp-s-run
 
 dbservice:
+  enabled: true
+  namespace: *namespace
+  replicas: 1
+  appVersion: latest  # will be overriden the image tag
   env:
     CONNECT_URL: *connect_url
     DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
   globals:
     namespace: *namespace
-  enabled: true
+  
 
 grafana:
+  enabled: false
+  namespace: *namespace
+  replicas: 1
+  appVersion: latest  # will be overriden the image tag
   globals:
     namespace: *namespace
-  enabled: false
   env:
     GRAFANA_URL: "http://localhost:3000"
     GRAFANA_API_KEY: ""

@@ -3,14 +3,23 @@ name: Release Charts
 on:
   workflow_dispatch:
     inputs:
+      build_chart:
+        description: "Build? When unchecked the last commit in the current branch is used release or test the chart"
+        type: boolean
+        default: true
+        required: true
       release_chart:
-        description: "Mark the release as Latest? (unchecked = publish but not latest)"
+        description: "Release? When unchecked changes are committed to the test repo"
         type: boolean
         default: false
         required: true
-
+      chart_version:
+        description: "Chart version to use (leave empty to auto-bump), this feature is not supported when build_chart is unchecked"
+        type: string
+        required: false
 jobs:
   build:
+    if: ${{ inputs.build_chart }}
     runs-on: ubuntu-latest
     env:
       OVERLAY_TO_PUBLISH: on-prem
@@ -39,24 +48,41 @@ jobs:
 
       - name: Checkout deployment
         uses: actions/checkout@v4
+        id: checkout-deployment
         with:
           path: deployment
           repository: webrix-ai/deployment
           fetch-depth: 0
           token: ${{ steps.github-auth-token.outputs.token }}
 
+      - name: Get deployment commit SHA
+        id: get-deployment-sha
+        working-directory: deployment
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "Deployment repository commit SHA: $COMMIT_SHA"
+
       - name: Bump Chart Version
         working-directory: helm-charts
+        id: bump-chart-version
         run: |
           CHART_FILE=charts/mcp-s/Chart.yaml
           OLD_VERSION=$(yq -r '.version' "$CHART_FILE")
-          IFS='.' read -r major minor patch <<< "$OLD_VERSION"
-          NEW_VERSION="$major.$minor.$((patch+1))"
-          echo "Bumping version: $OLD_VERSION -> $NEW_VERSION"
+          
+          if [ -n "${{ inputs.chart_version }}" ]; then
+            NEW_VERSION="${{ inputs.chart_version }}"
+            echo "Using provided version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
+          else
+            IFS='.' read -r major minor patch <<< "$OLD_VERSION"
+            NEW_VERSION="$major.$minor.$((patch+1))"
+            echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
+          fi
+          
           yq -i ".version = \"$NEW_VERSION\"" "$CHART_FILE"
-          git add "$CHART_FILE"
-          git commit -m "chore: bump chart version to $NEW_VERSION" || echo "No changes to commit"
-          git push origin HEAD:main
+          echo "commit_sha=${{ steps.get-deployment-sha.outputs.commit_sha }}" >> $GITHUB_OUTPUT
+          echo "chart_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "Chart version: $NEW_VERSION"
 
       - name: Create charts from services
         working-directory: ./helm-charts
@@ -64,34 +90,68 @@ jobs:
           # read chart version from charts/mcp-s/Chart.yaml
           CHART_VERSION=$(yq -o=json eval '.version' charts/mcp-s/Chart.yaml | jq -r .)
           echo "Chart version: $CHART_VERSION"
-          npx helmify-kustomize@1.0.73 build ../deployment/mcp-s-app/deploy --target ./charts/mcp-s-app --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env --parametrize-configmap env=mcp-s-app-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize@1.0.73 build ../deployment/mcp-s-connect/deploy --target ./charts/mcp-s-connect --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-connect-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize@1.0.73 build ../deployment/mcp-s-db-service/deploy --target ./charts/mcp-s-db-service --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-db-service-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize@1.0.73 build ../deployment/mcp-s-run/deploy --target ./charts/mcp-s-run --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-run-container-vars --clear true --chart-version $CHART_VERSION
-          npx helmify-kustomize@1.0.73 build ../deployment/mcp-s-grafana/deploy --target ./charts/mcp-s-grafana --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} --parametrize env=base/container.env --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env  --parametrize-configmap env=mcp-s-grafana-container-vars --clear true --chart-version $CHART_VERSION
+          echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.get-deployment-sha.outputs.commit_sha }}"
 
-      # Replace quay.io/idan-chetrit/mcp-s-run with quay.io/idan-chetrit/run and quay.io/idan-chetrit/mcp-s-db-service with quay.io/idan-chetrit/db-service
-      - name: Replace image names
-        working-directory: ./helm-charts
-        run: |
-          find ./charts -type f -name 'values.yaml' | while read file; do
-            sed -i 's/quay.io\/idan-chetrit\/mcp-s-run/quay.io\/idan-chetrit\/run/g' "$file"
-            sed -i 's/quay.io\/idan-chetrit\/mcp-s-db-service/quay.io\/idan-chetrit\/db-service/g' "$file"
-          done
+          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-app/deploy \
+            --target ./charts/mcp-s-app \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-app-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
 
+          
+          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-connect/deploy \
+            --target ./charts/mcp-s-connect \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-connect-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+                    
+          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-db-service/deploy \
+            --target ./charts/mcp-s-db-service \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-db-service-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+          
+          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-run/deploy \
+            --target ./charts/mcp-s-run \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-run-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION
+                    
+          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-grafana/deploy \
+            --target ./charts/mcp-s-grafana \
+            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
+            --parametrize env=base/container.env \
+            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
+            --parametrize-configmap env=mcp-s-grafana-container-vars \
+            --clear true \
+            --chart-version $CHART_VERSION 
+          
       - name: add to git
         working-directory: helm-charts
         run: |
           git add .
           if ! git diff-index --quiet HEAD --; then
-            git commit -m "updated charts"
+            git commit -m "Updated charts version: ${{ steps.bump-chart-version.outputs.chart_version }} based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
             git push
           else
-            echo "No changes to commit, working tree is clean"
+            echo "No changes to commit, working tree is clean" 
           fi
   release:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ inputs.release_chart }}
     permissions:
       contents: write
     steps:
@@ -102,7 +162,8 @@ jobs:
 
       - name: Pull latest chart
         run: |
-          git pull origin ${{ github.ref }}
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
 
       - name: Configure git
         run: |
@@ -115,4 +176,75 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           skip_existing: true
-          mark_as_latest: ${{ github.event.inputs.release_chart }}
+
+  test-publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.release_chart }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout helm-charts
+        uses: actions/checkout@v4
+        with:
+          path: helm-charts
+          fetch-depth: 0
+
+      - name: Pull latest chart
+        working-directory: helm-charts
+        run: |
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
+
+      - name: Set up GitHub auth token
+        id: github-auth-token
+        uses: ./helm-charts/.github/actions/github-auth-token
+        with:
+          GHA_PAT: ${{ secrets.GHA_PAT }}
+          GH_APP_PK: ${{ secrets.GH_APP_PK }}
+          GH_APP_ID: ${{ secrets.GH_APP_ID }}
+
+      - name: Checkout test-helm-charts
+        uses: actions/checkout@v4
+        with:
+          repository: webrix-ai/test-helm-charts
+          path: test-helm-charts
+          token: ${{ steps.github-auth-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Configure Git for test repo
+        working-directory: test-helm-charts
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Copy charts to test repo
+        run: |
+          # Ensure charts directory exists
+          mkdir -p test-helm-charts/charts
+          
+          # Remove old charts if they exist
+          if [ -d test-helm-charts/charts ]; then
+            rm -rf test-helm-charts/charts/*
+          fi
+          
+          # Copy new charts
+          cp -r helm-charts/charts/* test-helm-charts/charts/
+          
+          # Also copy the main Chart.yaml if it exists
+          if [ -f helm-charts/Chart.yaml ]; then
+            cp helm-charts/Chart.yaml test-helm-charts/
+          fi
+
+      - name: Commit and push to test repo
+        working-directory: test-helm-charts
+        run: |
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Update charts from helm-charts repo (commit: ${{ github.sha }})"
+            git push
+            echo "Charts pushed to test repository successfully"
+          else
+            echo "No changes to commit to test repository"
+          fi
+
