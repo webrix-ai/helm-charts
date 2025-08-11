@@ -58,6 +58,7 @@ overlay: "overlays/on-prem"
 namespace: &namespace webrix-mcp-s
 replicas: &replicas 1
 appVersion: &app_tag latest
+secretName: &secret_name mcp-s-db-service-container-secret-vars
 globals:
   addStandardHeaders: false
   images:
@@ -72,6 +73,9 @@ globals:
         - op: add
           path: /spec/replicas
           value: *replicas
+        - op: add
+          path: /spec/template/spec/containers/0/envFrom/1/secretRef/name
+          value: *secret_name
 env:
   DATABASE_URL: postgres://postgres:postgres@postgres-postgresql:5432/postgres?sslmode=disable
   POSTGRES_HOST_AUTH_METHOD: trust

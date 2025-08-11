@@ -58,6 +58,7 @@ overlay: "overlays/on-prem"
 namespace: &namespace webrix-mcp-s
 replicas: &replicas 1
 appVersion: &app_tag latest
+secretName: &secret_name mcp-s-app-container-secret-vars
 globals:
   addStandardHeaders: false
   images:
@@ -72,6 +73,9 @@ globals:
         - op: add
           path: /spec/replicas
           value: *replicas
+        - op: add
+          path: /spec/template/spec/containers/0/envFrom/1/secretRef/name
+          value: *secret_name
 env:
   DB_BASE_URL: http://mcp-s-db-service
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
