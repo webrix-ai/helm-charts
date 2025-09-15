@@ -129,7 +129,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize@1.2.10 build ../deployment/mcp-s-grafana/deploy \
+          npx helmify-kustomize@1.2.11 build ../deployment/mcp-s-grafana/deploy \
             --target ./charts/mcp-s-grafana \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
