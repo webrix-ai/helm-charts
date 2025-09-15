@@ -141,7 +141,14 @@ manifests:
 {{- end }}
 
 {{- define "hlmfk-1-2.podLabels" }}
+{{- $podLabels := dict }}
+{{- if .Values.podLabels }}
+{{- $podLabels = .Values.podLabels }}
+{{- end }}
 {{- if .globals.podLabels }}
+{{- $podLabels = .globals.podLabels }}
+{{- end }}
+{{- if $podLabels }}
 {{- if and (hasKey .manifest.spec "spec") (hasKey .manifest.spec.spec "template") }}
 {{- if not .manifest.spec.spec.template.metadata }}
 {{- $n := set .manifest.spec.spec.template "metadata" dict }}
@@ -149,7 +156,7 @@ manifests:
 {{- if not .manifest.spec.spec.template.metadata.labels }}
 {{- $n := set .manifest.spec.spec.template.metadata "labels" dict }}
 {{- end }}
-{{- $n := merge .manifest.spec.spec.template.metadata.labels .globals.podLabels }}
+{{- $n := merge .manifest.spec.spec.template.metadata.labels $podLabels }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -165,7 +172,14 @@ manifests:
 {{- end }}
 
 {{- define "hlmfk-1-2.podAnnotations" }}
+{{- $podAnnotations := dict }}
+{{- if .Values.podAnnotations }}
+{{- $podAnnotations = .Values.podAnnotations }}
+{{- end }}
 {{- if .globals.podAnnotations }}
+{{- $podAnnotations = .globals.podAnnotations }}
+{{- end }}
+{{- if $podAnnotations }}
 {{- if and (hasKey .manifest.spec "spec") (hasKey .manifest.spec.spec "template") }}
 {{- if not .manifest.spec.spec.template.metadata }}
 {{- $n := set .manifest.spec.spec.template "metadata" dict }}
@@ -173,7 +187,7 @@ manifests:
 {{- if not .manifest.spec.spec.template.metadata.annotations }}
 {{- $n := set .manifest.spec.spec.template.metadata "annotations" dict }}
 {{- end }}
-{{- $n := merge .manifest.spec.spec.template.metadata.annotations .globals.podAnnotations }}
+{{- $n := merge .manifest.spec.spec.template.metadata.annotations $podAnnotations }}
 {{- end }}
 {{- end }}
 {{- end }}
