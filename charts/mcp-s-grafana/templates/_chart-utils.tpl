@@ -140,6 +140,20 @@ manifests:
 {{- end }}
 {{- end }}
 
+{{- define "hlmfk-1-2.podLabels" }}
+{{- if .globals.podLabels }}
+{{- if and (hasKey .manifest.spec "spec") (hasKey .manifest.spec.spec "template") }}
+{{- if not .manifest.spec.spec.template.metadata }}
+{{- $n := set .manifest.spec.spec.template "metadata" dict }}
+{{- end }}
+{{- if not .manifest.spec.spec.template.metadata.labels }}
+{{- $n := set .manifest.spec.spec.template.metadata "labels" dict }}
+{{- end }}
+{{- $n := merge .manifest.spec.spec.template.metadata.labels .globals.podLabels }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 {{- define "hlmfk-1-2.annotations" }} 
 {{- if .globals.annotations}}
 {{- if .manifest.spec.metadata.annotations }}
