@@ -69,7 +69,7 @@ jobs:
         run: |
           CHART_FILE=charts/mcp-s/Chart.yaml
           OLD_VERSION=$(yq -r '.version' "$CHART_FILE")
-          
+
           if [ -n "${{ inputs.chart_version }}" ]; then
             NEW_VERSION="${{ inputs.chart_version }}"
             echo "Using provided version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
@@ -78,7 +78,7 @@ jobs:
             NEW_VERSION="$major.$minor.$((patch+1))"
             echo "Auto-bumping version: $OLD_VERSION -> $NEW_VERSION based on commit: ${{ steps.get-deployment-sha.outputs.commit_sha }}"
           fi
-          
+
           yq -i ".version = \"$NEW_VERSION\"" "$CHART_FILE"
           echo "commit_sha=${{ steps.get-deployment-sha.outputs.commit_sha }}" >> $GITHUB_OUTPUT
           echo "chart_version=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -101,7 +101,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
 
-          
+
           npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-connect/deploy \
             --target ./charts/mcp-s-connect \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
@@ -119,7 +119,7 @@ jobs:
             --parametrize-configmap env=mcp-s-db-service-container-vars \
             --clear true \
             --chart-version $CHART_VERSION
-          
+
           npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-run/deploy \
             --target ./charts/mcp-s-run \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
@@ -129,15 +129,15 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize@1.2.9 build ../deployment/mcp-s-grafana/deploy \
+          npx helmify-kustomize@1.2.10 build ../deployment/mcp-s-grafana/deploy \
             --target ./charts/mcp-s-grafana \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
             --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
             --parametrize-configmap env=mcp-s-grafana-container-vars \
             --clear true \
-            --chart-version $CHART_VERSION 
-          
+            --chart-version $CHART_VERSION
+
       - name: add to git
         working-directory: helm-charts
         run: |
@@ -222,15 +222,15 @@ jobs:
         run: |
           # Ensure charts directory exists
           mkdir -p test-helm-charts/charts
-          
+
           # Remove old charts if they exist
           if [ -d test-helm-charts/charts ]; then
             rm -rf test-helm-charts/charts/*
           fi
-          
+
           # Copy new charts
           cp -r helm-charts/charts/* test-helm-charts/charts/
-          
+
           # Also copy the main Chart.yaml if it exists
           if [ -f helm-charts/Chart.yaml ]; then
             cp helm-charts/Chart.yaml test-helm-charts/
@@ -247,4 +247,3 @@ jobs:
           else
             echo "No changes to commit to test repository"
           fi
-
