@@ -150,6 +150,20 @@ manifests:
 {{- end }}
 {{- end }}
 
+{{- define "hlmfk-1-2.podAnnotations" }}
+{{- if .globals.podAnnotations }}
+{{- if and (hasKey .manifest.spec "spec") (hasKey .manifest.spec.spec "template") }}
+{{- if not .manifest.spec.spec.template.metadata }}
+{{- $n := set .manifest.spec.spec.template "metadata" dict }}
+{{- end }}
+{{- if not .manifest.spec.spec.template.metadata.annotations }}
+{{- $n := set .manifest.spec.spec.template.metadata "annotations" dict }}
+{{- end }}
+{{- $n := merge .manifest.spec.spec.template.metadata.annotations .globals.podAnnotations }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 
 {{- define "hlmfk-1-2.addStandardHeaders" -}}
 {{- if .manifest.spec.metadata.labels }}

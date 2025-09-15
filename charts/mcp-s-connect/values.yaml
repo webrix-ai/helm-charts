@@ -80,7 +80,6 @@ env:
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
   DB_AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=
   DB_BASE_URL: http://mcp-s-db-service
-  NEXTAUTH_URL: https://connect.mcp-s.com
   PORT: "3000"
   AUTO_AUTHENTICATE_TOKEN: balQgAqCpKW979XoibTYSbfCjvj7uSJK+90m0iQG5
   RUN_URL: https://run.mcp-s.com
