@@ -16,7 +16,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-run-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `app: mcp-s-run` -}}
+{{- $anchor_podLabels_default := printf `null` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-run` -}}
 {{- $final_namespace := "" -}}
@@ -55,17 +55,17 @@ DO NOT EDIT: Any changes will be overwritten
 {{- else -}}
 {{- $final_podLabels = $runtime_podLabels -}}
 {{- end -}}
-{{- $final_nodeSelector := "" -}}
-{{- if eq $runtime_nodeSelector "__HELMIFY_NOT_FOUND__" -}}
-{{- $final_nodeSelector = $anchor_nodeSelector_default -}}
-{{- else -}}
-{{- $final_nodeSelector = $runtime_nodeSelector -}}
-{{- end -}}
 {{- $final_registry := "" -}}
 {{- if eq $runtime_registry "__HELMIFY_NOT_FOUND__" -}}
 {{- $final_registry = $anchor_registry_default -}}
 {{- else -}}
 {{- $final_registry = $runtime_registry -}}
+{{- end -}}
+{{- $final_nodeSelector := "" -}}
+{{- if eq $runtime_nodeSelector "__HELMIFY_NOT_FOUND__" -}}
+{{- $final_nodeSelector = $anchor_nodeSelector_default -}}
+{{- else -}}
+{{- $final_nodeSelector = $runtime_nodeSelector -}}
 {{- end -}}
 # globals:
 #  namespace: "namespace"
@@ -94,10 +94,7 @@ appVersion: &app_tag {{ $final_app_tag }}
 secretName: &secret_name {{ $final_secret_name }}
 podAnnotations: &podAnnotations 
 {{ $final_podAnnotations | indent 2 }}
-podLabels: &podLabels 
-{{ $final_podLabels | indent 2 }}
-nodeSelector: &nodeSelector 
-{{ $final_nodeSelector | indent 2 }}
+podLabels: &podLabels {{ $final_podLabels }}
 registry: &registry {{ $final_registry }}
 globals:
   addStandardHeaders: false
@@ -122,7 +119,9 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
+          value:
+            <<: {{ $final_podLabels }}
+            app: "mcp-s-run"
         - op: add
           path: /spec/template/spec/nodeSelector
           value: {{ $final_nodeSelector | fromYaml | toYaml | nindent 12 }}

@@ -16,7 +16,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-connect-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `app: mcp-s-connect` -}}
+{{- $anchor_podLabels_default := printf `` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-connect` -}}
 {{- $final_namespace := "" -}}
@@ -125,7 +125,9 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
+          value:
+            <<: {{ $final_podLabels | fromYaml | toYaml | nindent 2 }}
+            app: "mcp-s-connect"
 env:
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
   DB_AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=

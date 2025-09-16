@@ -59,8 +59,7 @@ namespace: &namespace webrix-mcp-s
 replicas: &replicas 1
 appVersion: &app_tag latest
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels
-  app: "mcp-s-grafana"
+podLabels: &podLabels {}
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-grafana
 globals:
@@ -86,7 +85,9 @@ globals:
           value: *podAnnotations
         - op: add
           path: /spec/template/metadata/labels
-          value: *podLabels
+          value:
+            <<: *podLabels
+            app: "mcp-s-grafana"
 env:
   GRAFANA_URL: http://localhost:3000
   GRAFANA_API_KEY: ""

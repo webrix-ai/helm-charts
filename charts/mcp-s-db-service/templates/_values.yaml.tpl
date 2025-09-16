@@ -16,7 +16,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-db-service-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `app: mcp-s-db-service` -}}
+{{- $anchor_podLabels_default := printf `` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-db-service` -}}
 {{- $final_namespace := "" -}}
@@ -125,7 +125,9 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
+          value:
+            <<: {{ $final_podLabels | fromYaml | toYaml | nindent 2 }}
+            app: "mcp-s-db-service"
 env:
   DATABASE_URL: postgres://postgres:postgres@postgres-postgresql:5432/postgres?sslmode=disable
   POSTGRES_HOST_AUTH_METHOD: trust

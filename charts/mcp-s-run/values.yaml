@@ -60,8 +60,7 @@ replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-run-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels
-  app: "mcp-s-run"
+podLabels: &podLabels 
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-run
 globals:
@@ -87,7 +86,9 @@ globals:
           value: *podAnnotations
         - op: add
           path: /spec/template/metadata/labels
-          value: *podLabels
+          value:
+            <<: *podLabels
+            app: "mcp-s-run"
         - op: add
           path: /spec/template/spec/nodeSelector
           value: *nodeSelector

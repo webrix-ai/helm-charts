@@ -60,8 +60,7 @@ replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-connect-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels
-  app: "mcp-s-connect"
+podLabels: &podLabels {}
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-connect
 globals:
@@ -90,7 +89,9 @@ globals:
           value: *podAnnotations
         - op: add
           path: /spec/template/metadata/labels
-          value: *podLabels
+          value:
+            <<: *podLabels
+            app: "mcp-s-connect"
 env:
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
   DB_AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=
