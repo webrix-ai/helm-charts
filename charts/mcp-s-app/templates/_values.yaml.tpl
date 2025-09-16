@@ -112,8 +112,7 @@ podLabels: &podLabels
 {{ $final_podLabels | indent 2 }}
 nodeSelector: &nodeSelector 
 {{ $final_nodeSelector | indent 2 }}
-podResources:
-  &podResources 
+podResources: &podResources 
 {{ $final_podResources | indent 2 }}
 globals:
   addStandardHeaders: false
