@@ -61,9 +61,9 @@ appVersion: &app_tag latest
 registry: &registry quay.io/idan-chetrit/mcp-s-app
 secretName: &secret_name mcp-s-app-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
-nodeSelector: &nodeSelector
-  prometheus.io/scrape: "test"
+podLabels: &podLabels
+  app: "mcp-s-app"
+nodeSelector: &nodeSelector {}
 globals:
   addStandardHeaders: false
   images:

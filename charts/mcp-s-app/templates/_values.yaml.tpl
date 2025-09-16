@@ -17,8 +17,8 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-app` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-app-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
-{{- $anchor_nodeSelector_default := printf `prometheus.io/scrape: test` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-app` -}}
+{{- $anchor_nodeSelector_default := printf `` -}}
 {{- $final_namespace := "" -}}
 {{- if eq $runtime_namespace "__HELMIFY_NOT_FOUND__" -}}
 {{- $final_namespace = $anchor_namespace_default -}}
