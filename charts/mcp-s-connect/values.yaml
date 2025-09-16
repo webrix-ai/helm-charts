@@ -59,11 +59,16 @@ namespace: &namespace webrix-mcp-s
 replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-connect-container-secret-vars
+podAnnotations: &podAnnotations {}
+podLabels: &podLabels {}
+nodeSelector: &nodeSelector {}
+registry: &registry quay.io/idan-chetrit/mcp-s-connect
 globals:
   addStandardHeaders: false
   images:
     - image: quay.io/idan-chetrit/mcp-s-connect
       newTag: *app_tag
+      newName: *registry
   namespace: *namespace
   patches:
     - target:
@@ -76,6 +81,15 @@ globals:
         - op: add
           path: /spec/template/spec/containers/0/envFrom/1/secretRef/name
           value: *secret_name
+        - op: add
+          path: /spec/template/spec/nodeSelector
+          value: *nodeSelector
+        - op: add
+          path: /spec/template/metadata/annotations
+          value: *podAnnotations
+        - op: add
+          path: /spec/template/metadata/labels
+          value: *podLabels
 env:
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
   DB_AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=
