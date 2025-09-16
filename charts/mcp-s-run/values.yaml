@@ -64,6 +64,13 @@ podLabels: &podLabels
   app: "mcp-s-run"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-run
+podResources: &podResources
+  requests:
+    cpu: 100m
+    memory: 200Mi
+  limits:
+    cpu: 1000m
+    memory: 2048Mi
 globals:
   addStandardHeaders: false
   images:
@@ -91,6 +98,9 @@ globals:
         - op: add
           path: /spec/template/spec/nodeSelector
           value: *nodeSelector
+        - op: add
+          path: /spec/template/spec/containers/0/resources
+          value: *podResources
 env:
   DB_SERVICE_URL: http://mcp-s-db-service
   PORT: "3000"

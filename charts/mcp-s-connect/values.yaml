@@ -64,6 +64,13 @@ podLabels: &podLabels
   app: "mcp-s-connect"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-connect
+podResources: &podResources
+  requests:
+    cpu: 100m
+    memory: 200Mi
+  limits:
+    cpu: 1000m
+    memory: 2048Mi
 globals:
   addStandardHeaders: false
   images:
@@ -91,6 +98,9 @@ globals:
         - op: add
           path: /spec/template/metadata/labels
           value: *podLabels
+        - op: add
+          path: /spec/template/spec/containers/0/resources
+          value: *podResources
 env:
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
   DB_AUTH_SECRET: ZI39UlR2sN6HFZauuze0iNEZnNkF1wiOuGklm3bC8dk=
