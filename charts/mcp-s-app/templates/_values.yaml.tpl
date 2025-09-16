@@ -17,7 +17,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-app` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-app-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-app` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $final_namespace := "" -}}
 {{- if eq $runtime_namespace "__HELMIFY_NOT_FOUND__" -}}
@@ -125,9 +125,7 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value:
-            <<: {{ $final_podLabels | fromYaml | toYaml | nindent 2 }}
-            app: "mcp-s-app"
+          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
 env:
   DB_BASE_URL: http://mcp-s-db-service
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=

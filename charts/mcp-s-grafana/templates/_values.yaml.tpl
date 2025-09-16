@@ -14,7 +14,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_replicas_default := printf `1` -}}
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-grafana` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-grafana` -}}
 {{- $final_namespace := "" -}}
@@ -113,9 +113,7 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value:
-            <<: {{ $final_podLabels | fromYaml | toYaml | nindent 2 }}
-            app: "mcp-s-grafana"
+          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
 env:
   GRAFANA_URL: http://localhost:3000
   GRAFANA_API_KEY: ""

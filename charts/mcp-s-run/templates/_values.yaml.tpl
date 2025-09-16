@@ -16,7 +16,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-run-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-run` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-run` -}}
 {{- $final_namespace := "" -}}
@@ -122,9 +122,7 @@ globals:
           value: {{ $final_podAnnotations | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/metadata/labels
-          value:
-            <<: {{ $final_podLabels | fromYaml | toYaml | nindent 2 }}
-            app: "mcp-s-run"
+          value: {{ $final_podLabels | fromYaml | toYaml | nindent 12 }}
         - op: add
           path: /spec/template/spec/nodeSelector
           value: {{ $final_nodeSelector | fromYaml | toYaml | nindent 12 }}

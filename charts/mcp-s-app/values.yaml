@@ -61,7 +61,8 @@ appVersion: &app_tag latest
 registry: &registry quay.io/idan-chetrit/mcp-s-app
 secretName: &secret_name mcp-s-app-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
+podLabels: &podLabels
+  app: "mcp-s-app"
 nodeSelector: &nodeSelector {}
 globals:
   addStandardHeaders: false
@@ -89,9 +90,7 @@ globals:
           value: *podAnnotations
         - op: add
           path: /spec/template/metadata/labels
-          value:
-            <<: *podLabels
-            app: "mcp-s-app"
+          value: *podLabels
 env:
   DB_BASE_URL: http://mcp-s-db-service
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=

@@ -60,7 +60,8 @@ replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-db-service-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
+podLabels: &podLabels
+  app: "mcp-s-db-service"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-db-service
 globals:
@@ -89,9 +90,7 @@ globals:
           value: *podAnnotations
         - op: add
           path: /spec/template/metadata/labels
-          value:
-            <<: *podLabels
-            app: "mcp-s-db-service"
+          value: *podLabels
 env:
   DATABASE_URL: postgres://postgres:postgres@postgres-postgresql:5432/postgres?sslmode=disable
   POSTGRES_HOST_AUTH_METHOD: trust
