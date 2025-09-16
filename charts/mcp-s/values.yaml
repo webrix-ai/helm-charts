@@ -53,7 +53,7 @@ app:
   namespace: *namespace
   replicas: 1
   enabled: true
-  appVersion: latest  # will be overriden the image tag
+  appVersion: latest # will be overriden the image tag
   ingress:
     className: *ingressClassName
     name: app
@@ -74,7 +74,7 @@ run:
   namespace: *namespace
   replicas: 1
   enabled: true
-  appVersion: latest  # will be overriden the image tag
+  appVersion: latest # will be overriden the image tag
   ingress:
     className: *ingressClassName
     name: run
@@ -93,19 +93,18 @@ dbservice:
   enabled: true
   namespace: *namespace
   replicas: 1
-  appVersion: latest  # will be overriden the image tag
+  appVersion: latest # will be overriden the image tag
   env:
     CONNECT_URL: *connect_url
     DATABASE_URL: "postgres://postgres:postgres@mcp-s-postgresql:5432/postgres?sslmode=disable"
   globals:
     namespace: *namespace
-  
 
 grafana:
   enabled: false
   namespace: *namespace
   replicas: 1
-  appVersion: latest  # will be overriden the image tag
+  appVersion: latest # will be overriden the image tag
   globals:
     namespace: *namespace
   env:
@@ -135,10 +134,10 @@ postgresql:
   # Use resourcesPreset for non-production instead of manual resources.
   # In production workloads using resourcesPreset is discouraged as it may not fully adapt to your specific needs.
   # Options: nano, micro, small, medium, large, xlarge, 2xlarge
-  resourcesPreset: "small" # Equivalent to ~500m CPU, 512Mi memory
 
   # Primary configuration
   primary:
+    resourcesPreset: "small" # Equivalent to ~500m CPU, 512Mi memory
     # Persistence (equivalent to volumes in docker-compose)
     persistence:
       enabled: true

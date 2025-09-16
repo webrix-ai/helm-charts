@@ -92,7 +92,7 @@ jobs:
           echo "Chart version: $CHART_VERSION"
           echo "Bulding charts based on commit: https://github.com/webrix-ai/deployment/commit/${{ steps.get-deployment-sha.outputs.commit_sha }}"
 
-          npx helmify-kustomize@1.2.18 build ../deployment/mcp-s-app/deploy \
+          npx helmify-kustomize@1.2.20 build ../deployment/mcp-s-app/deploy \
             --target ./charts/mcp-s-app \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -102,7 +102,7 @@ jobs:
             --chart-version $CHART_VERSION
 
 
-          npx helmify-kustomize@1.2.18 build ../deployment/mcp-s-connect/deploy \
+          npx helmify-kustomize@1.2.20 build ../deployment/mcp-s-connect/deploy \
             --target ./charts/mcp-s-connect \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -111,7 +111,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize@1.2.18 build ../deployment/mcp-s-db-service/deploy \
+          npx helmify-kustomize@1.2.20 build ../deployment/mcp-s-db-service/deploy \
             --target ./charts/mcp-s-db-service \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -120,7 +120,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
 
-          npx helmify-kustomize@1.2.18 build ../deployment/mcp-s-run/deploy \
+          npx helmify-kustomize@1.2.20 build ../deployment/mcp-s-run/deploy \
             --target ./charts/mcp-s-run \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
@@ -129,7 +129,7 @@ jobs:
             --clear true \
             --chart-version $CHART_VERSION
                     
-          npx helmify-kustomize@1.2.18 build ../deployment/mcp-s-grafana/deploy \
+          npx helmify-kustomize@1.2.20 build ../deployment/mcp-s-grafana/deploy \
             --target ./charts/mcp-s-grafana \
             --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
             --parametrize env=base/container.env \
