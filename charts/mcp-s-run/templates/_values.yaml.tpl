@@ -112,7 +112,8 @@ podLabels: &podLabels
 nodeSelector: &nodeSelector 
 {{ $final_nodeSelector | indent 2 }}
 registry: &registry {{ $final_registry }}
-podResources: &podResources 
+podResources:
+  &podResources 
 {{ $final_podResources | indent 2 }}
 globals:
   addStandardHeaders: false
