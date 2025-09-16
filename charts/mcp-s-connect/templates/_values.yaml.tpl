@@ -16,7 +16,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-connect-container-secret-vars` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-connect` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-connect` -}}
 {{- $final_namespace := "" -}}

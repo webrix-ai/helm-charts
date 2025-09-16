@@ -60,7 +60,8 @@ replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-connect-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
+podLabels: &podLabels
+  app: "mcp-s-connect"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-connect
 globals:

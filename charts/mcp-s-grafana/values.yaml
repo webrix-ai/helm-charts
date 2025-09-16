@@ -59,7 +59,8 @@ namespace: &namespace webrix-mcp-s
 replicas: &replicas 1
 appVersion: &app_tag latest
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
+podLabels: &podLabels
+  app: "mcp-s-grafana"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-grafana
 globals:

@@ -14,7 +14,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $anchor_replicas_default := printf `1` -}}
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_podAnnotations_default := printf `` -}}
-{{- $anchor_podLabels_default := printf `` -}}
+{{- $anchor_podLabels_default := printf `app: mcp-s-grafana` -}}
 {{- $anchor_nodeSelector_default := printf `` -}}
 {{- $anchor_registry_default := printf `quay.io/idan-chetrit/mcp-s-grafana` -}}
 {{- $final_namespace := "" -}}

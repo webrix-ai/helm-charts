@@ -60,7 +60,8 @@ replicas: &replicas 1
 appVersion: &app_tag latest
 secretName: &secret_name mcp-s-db-service-container-secret-vars
 podAnnotations: &podAnnotations {}
-podLabels: &podLabels {}
+podLabels: &podLabels
+  app: "mcp-s-db-service"
 nodeSelector: &nodeSelector {}
 registry: &registry quay.io/idan-chetrit/mcp-s-db-service
 globals:
