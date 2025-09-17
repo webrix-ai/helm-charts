@@ -25,8 +25,8 @@ DO NOT EDIT: Any changes will be overwritten
 {{- end }}
 {{- include "hlmfk-1-2.ensureMetadata" (dict "manifest" $manifest)}}
 {{- include "hlmfk-1-2.updataImages" (dict "manifest" $manifest "globals" $globals)}}
+{{- include "hlmfk-1-2.setNamespace" (dict "manifest" $manifest "globals" $globals "Release" $.Release)}}
 {{- if $globals }}
-{{- include "hlmfk-1-2.setNamespace" (dict "manifest" $manifest "globals" $globals)}}
 {{- include "hlmfk-1-2.setNamePrefix" (dict "manifest" $manifest "globals" $globals)}}
 {{- include "hlmfk-1-2.setNameSuffix" (dict "manifest" $manifest "globals" $globals)}}
 {{- include "hlmfk-1-2.nameReleasePrefix" (dict "manifest" $manifest "globals" $globals "Values" $values)}}

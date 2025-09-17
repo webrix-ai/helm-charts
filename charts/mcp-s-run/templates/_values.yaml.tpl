@@ -12,7 +12,7 @@ DO NOT EDIT: Any changes will be overwritten
 {{- $runtime_app_tag := include "hlmfk-1-2.getValue" (dict "Values" .Values "path" (list "appVersion") "default" "__HELMIFY_NOT_FOUND__") -}}
 {{- $runtime_replicas := include "hlmfk-1-2.getValue" (dict "Values" .Values "path" (list "replicas") "default" "__HELMIFY_NOT_FOUND__") -}}
 {{- $runtime_namespace := include "hlmfk-1-2.getValue" (dict "Values" .Values "path" (list "namespace") "default" "__HELMIFY_NOT_FOUND__") -}}
-{{- $anchor_namespace_default := printf `webrix-mcp-s` -}}
+{{- $anchor_namespace_default := printf `` -}}
 {{- $anchor_replicas_default := printf `1` -}}
 {{- $anchor_app_tag_default := printf `latest` -}}
 {{- $anchor_secret_name_default := printf `mcp-s-run-container-secret-vars` -}}

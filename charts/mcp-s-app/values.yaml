@@ -55,7 +55,7 @@
 #      version: "v1"
 #      kind: "Resource"
 overlay: "overlays/on-prem"
-namespace: &namespace webrix-mcp-s
+namespace: &namespace ""
 replicas: &replicas 1
 appVersion: &app_tag latest
 registry: &registry quay.io/idan-chetrit/mcp-s-app

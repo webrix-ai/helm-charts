@@ -82,9 +82,11 @@ manifests:
 {{- end }}
 {{- end}}
 
-{{- define "hlmfk-1-2.setNamespace" }} 
-{{- if .globals.namespace}}
+{{- define "hlmfk-1-2.setNamespace" }}
+{{- if and .globals .globals.namespace}}
 {{- $n := set .manifest.spec.metadata "namespace" .globals.namespace -}}
+{{- else }}
+{{- $n := set .manifest.spec.metadata "namespace" .Release.Namespace -}}
 {{- end }}
 {{- end }}
 
