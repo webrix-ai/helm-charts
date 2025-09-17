@@ -38,7 +38,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "webrix.fullname" $ }}-{{ $ingress.name }}
-  namespace: {{ $ingress.namespace }}
+  namespace: {{ $ingress.namespace | default $.Release.Namespace }}
   labels:
     {{- include "webrix.labels" $ | nindent 4 }}
   annotations:
