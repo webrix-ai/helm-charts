@@ -13,7 +13,6 @@ This repository contains multiple Helm charts for the MCP-S (Multi-Cloud Platfor
 - **mcp-s-connect** - Connection service
 - **mcp-s-run** - Runtime service
 - **mcp-s-db-service** - Database service
-- **mcp-s-grafana** - Monitoring with Grafana
 
 ## Local Development
 

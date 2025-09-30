@@ -128,15 +128,6 @@ jobs:
             --parametrize-configmap env=mcp-s-run-container-vars \
             --clear true \
             --chart-version $CHART_VERSION
-                    
-          npx helmify-kustomize@1.2.24 build ../deployment/mcp-s-grafana/deploy \
-            --target ./charts/mcp-s-grafana \
-            --overlay-filter overlays/${{ env.OVERLAY_TO_PUBLISH }} \
-            --parametrize env=base/container.env \
-            --parametrize env=overlays/${{ env.OVERLAY_TO_PUBLISH }}/container.env \
-            --parametrize-configmap env=mcp-s-grafana-container-vars \
-            --clear true \
-            --chart-version $CHART_VERSION
 
       - name: add to git
         working-directory: helm-charts
