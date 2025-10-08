@@ -58,7 +58,7 @@ overlay: "overlays/on-prem"
 namespace: &namespace ""
 replicas: &replicas 1
 appVersion: &app_tag latest
-registry: &registry quay.io/idan-chetrit/mcp-s-app
+registry: &registry quay.io/webrix/mcp-s-app
 secretName: &secret_name mcp-s-app-container-secret-vars
 podAnnotations: &podAnnotations {}
 podLabels: &podLabels
@@ -74,7 +74,7 @@ podResources: &podResources
 globals:
   addStandardHeaders: false
   images:
-    - image: quay.io/idan-chetrit/mcp-s-app
+    - image: quay.io/webrix/mcp-s-app
       newTag: *app_tag
       newName: *registry
   namespace: *namespace

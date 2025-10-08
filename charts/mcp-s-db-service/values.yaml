@@ -63,7 +63,7 @@ podAnnotations: &podAnnotations {}
 podLabels: &podLabels
   app: "mcp-s-db-service"
 nodeSelector: &nodeSelector {}
-registry: &registry quay.io/idan-chetrit/mcp-s-db-service
+registry: &registry quay.io/webrix/mcp-s-db-service
 podResources: &podResources
   requests:
     cpu: 100m
@@ -74,7 +74,7 @@ podResources: &podResources
 globals:
   addStandardHeaders: false
   images:
-    - image: quay.io/idan-chetrit/mcp-s-db-service
+    - image: quay.io/webrix/mcp-s-db-service
       newTag: *app_tag
       newName: *registry
   namespace: *namespace
