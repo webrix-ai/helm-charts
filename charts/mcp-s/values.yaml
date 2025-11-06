@@ -105,8 +105,13 @@ dbservice:
 postgresql:
   # controls enabling/disabling the postgresql subchart.
   # it will be enabled if db_provider is 'postgresql'.
-  enabled: true
 
+  enabled: true
+  image:
+    repository: bitnamilegacy/postgresql
+  global:
+    security:
+      allowInsecureImages: true
   # The chart will use the appropriate default PostgreSQL 17.x version
   # image:
   #   tag: "17.2.0-debian-12-r5"  # Can override, but not recommended
