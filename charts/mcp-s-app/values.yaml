@@ -71,36 +71,13 @@ podResources: &podResources
   limits:
     cpu: 1000m
     memory: 2048Mi
-globals:
-  addStandardHeaders: false
-  images:
-    - image: quay.io/webrix/mcp-s-app
-      newTag: *app_tag
-      newName: *registry
-  namespace: *namespace
-  patches:
-    - target:
-        kind: Deployment
-        name: mcp-s-app
-      ops:
-        - op: add
-          path: /spec/replicas
-          value: *replicas
-        - op: add
-          path: /spec/template/spec/containers/0/envFrom/1/secretRef/name
-          value: *secret_name
-        - op: add
-          path: /spec/template/spec/nodeSelector
-          value: *nodeSelector
-        - op: add
-          path: /spec/template/metadata/annotations
-          value: *podAnnotations
-        - op: add
-          path: /spec/template/metadata/labels
-          value: *podLabels
-        - op: add
-          path: /spec/template/spec/containers/0/resources
-          value: *podResources
+autoscaling:
+  enabled: false
+  minReplicas: &autoscaling_minReplicas 1
+  maxReplicas: &autoscaling_maxReplicas 3
+  targetCPUUtilizationPercentage: &autoscaling_targetCPU 70
+  targetMemoryUtilizationPercentage: &autoscaling_targetMemory 80
+deploymentName: &deployment_name "mcp-s-app"
 env:
   DB_BASE_URL: http://mcp-s-db-service
   AUTH_SECRET: aUi2V5iCVqUrbrdjKty1zH4HCqszXArV9BLVU2giqhY=
